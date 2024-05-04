@@ -1,5 +1,6 @@
-Health Genius
+<h1>Health Genius</h1>
 Project Description
+<p>
 Our Health Genius is an innovative solution for seamless medical services. Our platform integrates cutting-edge features to enhance the patient experience and streamline healthcare delivery:
 
 Authentication: Secure access for users, ensuring data privacy and confidentiality.
@@ -10,8 +11,8 @@ Chat: Real-time communication with healthcare professionals for immediate assist
 Access Lab Reports and Patient History: Effortless retrieval of vital medical information for comprehensive care.
 Feedback: Provide invaluable feedback to continually improve our services and meet user needs.
 Join us in revolutionizing healthcare delivery, where technology meets compassion for a healthier tomorrow.
-
-Tools Used
+</p>
+<h2>Tools Used</h2>
 Design
 Figma: Collaborative interface design tool for creating intuitive user interfaces.
 Styling
@@ -25,9 +26,15 @@ Express.js: Minimal and flexible Node.js web application framework for building 
 Database
 MongoDB: Non-SQL database for storing and managing structured and unstructured data efficiently.
 Getting Started
-To run the frontend:
+<h2>
+  To run the frontend: <br>
 cd frontend
+  <br>
 npm run dev
-To run the backend:
-cd backend
-npm start
+</h2>
+<h2>
+  To run the backend: <br>
+cd backend <br>
+npm start <br>
+</h2>
+
