@@ -12,20 +12,33 @@ Access Lab Reports and Patient History: Effortless retrieval of vital medical in
 Feedback: Provide invaluable feedback to continually improve our services and meet user needs.
 Join us in revolutionizing healthcare delivery, where technology meets compassion for a healthier tomorrow.
 </p>
-<h2>Tools Used</h2>
+<h1>Tools Used</h1>
+<h2>
 Design
+</h2>
+<h4>
 Figma: Collaborative interface design tool for creating intuitive user interfaces.
+</h4>
+<h2>
 Styling
-CSS
+</h2>
+<h4>
 Tailwind CSS: Utility-first CSS framework for building custom designs quickly and efficiently.
-Frontend
+</h4>
+<h2>Frontend</h2>
+<h4>
 React.js: JavaScript library for building user interfaces, providing a responsive and interactive experience.
-Backend
+
+</h4>
+<h2>Backend</h2>
+<h4> 
 Node.js: JavaScript runtime for building scalable and server-side applications.
-Express.js: Minimal and flexible Node.js web application framework for building APIs and web servers.
-Database
-MongoDB: Non-SQL database for storing and managing structured and unstructured data efficiently.
-Getting Started
+Express.js: Minimal and flexible Node.js web application framework for building APIs and web servers.</h4>
+
+<h2> Database</h2>
+<h4> MongoDB: Non-SQL database for storing and managing structured and unstructured data efficiently.</h4>
+
+<h1>Getting Started</h1>
 <h2>
   To run the frontend: <br>
 cd frontend
