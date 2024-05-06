@@ -1,10 +1,8 @@
-import '../../index.css';
 import Navbar from '../navbar';
 export default function Home() {
   return (
     <div>
       <Navbar />
-
       <div className="px-6  lg:px-8  ml-10 mr-10 mt-5">
         <main className="grid lg:grid-cols-2 gap-10">
           <div className="main pt-20">
@@ -12,7 +10,6 @@ export default function Home() {
               <h1 className="text-3xl lg:text-5xl font-bold text-indigo-900">Take Care <span className="text-black">of your health with Health Genius.</span></h1>
             </div>
             <p className="text-sm leading-relaxed text-gray-900 my-8">
-
               At Health Genius, quality healthcare meets digital convenience. Connect with experienced professionals, access informative articles, and receive personalized recommendations. Take control of your health journey with confidence and convenience. Join our online hospital community today.
             </p>
             <div className="flex">
@@ -20,7 +17,6 @@ export default function Home() {
                 <button
                   className=" rounded-full bg-indigo-900 px-5 py-3 text-xl font-semibold text-white shadow-sm hover:border-2 hover:bg-white hover:text-indigo-900
                hover:border-indigo-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-900 mr-4"
-
                 >
                   Get Started
                 </button>
