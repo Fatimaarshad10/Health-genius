@@ -1,8 +1,15 @@
 import Navbar from '../navbar';
+import About from "../about";
+import Search from "../search"
+import Services from "../services"
+import Footer from "../footer"
+import Testimonials from "../testimonials"
 export default function Home() {
   return (
     <div>
+      {/* Header Section */}
       <Navbar />
+      {/* Main Section  */}
       <div className="px-6  lg:px-8  ml-10 mr-10 mt-5">
         <main className="grid lg:grid-cols-2 gap-10">
           <div className="main pt-20">
@@ -60,6 +67,20 @@ export default function Home() {
           </div>
         </main>
       </div>
+      {/* 1 Search Section */}
+      <Search />
+      {/* 2 Main image all code here */}
+      {/* 3 Searvices Section  */}
+      <Services />
+      {/* 4 Genius image section  */}
+      {/* 5 About section  */}
+      <About />
+      {/* 6 Testimonials Section  */}
+      <Testimonials />
+      {/* 7 appointment and doctor code here  Section  */}
+
+      {/* 8 Footer Section  */}
+      <Footer />
     </div>
   )
 }
