@@ -1,8 +1,9 @@
 function Services() {
     return (
         <>
+        {/* Service Section  */}
             <h1 className="text-indigo-900 text-5xl text-center mt-8">Services</h1>
-            <h1 className="text-6xl text-center font-semibold mt-3">Experienced in multiple<br />medical practices.</h1>
+            <h1 className="lg:text-6xl  text-3xl text-center font-semibold mt-3">Experienced in multiple<br />medical practices.</h1>
             <p className="text-center text-lg mt-3">Search for the specific need to find the right doctor for yourself.</p>
             <div class="flex flex-col lg:flex-row lg:justify-between mb-10 mr-10 lg:ml-14 mt-8">
                 <div class="flex flex-col items-center mb-4 lg:mb-0">
@@ -30,8 +31,11 @@ function Services() {
                     </div>
                 </div>
             </div>
+        {/* Why Health Genius Section  */}
+
             <h1 className="text-3xl lg:text-5xl font-bold text-indigo-900 ml-20">Why Health Genius? </h1>
-            <div class="flex flex-col lg:flex-row lg:justify-between mb-10 mr-10 lg:ml-14 mt-14">
+            <div class="flex flex-col lg:flex-row gap-20 mb-10 mr-10 lg:ml-14 mt-14
+            justify-center">
                 <div class="flex flex-col items-center mb-4 lg:mb-0">
                     <div class="bg-white shadow-lg p-4 w-72 h-80">
                         <img src="src/assets/img/genius-1.png" alt="grnius-1" class="w-52 h-52 mx-auto" />
