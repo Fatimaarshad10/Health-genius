@@ -40,7 +40,6 @@ function About() {
                             </div>
                         </div>
                     </div>
-
                 </main>
             </div>
         </>
