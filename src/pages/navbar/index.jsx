@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
+
 const navigation = [
-  { name: 'Home', href: '#' },
-  { name: 'About', href: '#' },
-  { name: 'Services', href: '#' },
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about' },
+  { name: 'Services', href: '/services' },
   { name: 'Doctors', href: '#' },
   { name: 'Facilities', href: '#' },
   { name: 'More', href: '#' },
@@ -28,7 +30,7 @@ function Navbar() {
             <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-indigo-200 md:dark:bg-white dark:border-indigo-700">
               {navigation.map((item) => (
                 <li key={item.name} >
-                  <a href={item.href} class="block py-2 px-3 mt-4 text-center md:text-black rounded hover:bg-indigo-50 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0  md:dark:hover:text-indigo-300 dark:hover:bg-indigo-400 dark:hover:text-white" aria-current="page">{item.name}</a>
+                  <Link to={item.href} class="block py-2 px-3 mt-4 text-center md:text-black rounded hover:bg-indigo-50 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0  md:dark:hover:text-indigo-300 dark:hover:bg-indigo-400 dark:hover:text-white" aria-current="page">{item.name}</Link>
                 </li>
               ))}
               <li>
@@ -36,13 +38,15 @@ function Navbar() {
                   <button
                     className="rounded-full md:bg-indigo-400 px-5 py-3 text-l font-semibold text-black 
                     hover:bg-indigo-50   dark:hover:text-indigo-300  "
+                    
                   >
-                    Sign In
+                    <Link to='/login'>Sign In</Link>
+                    
                   </button>
                   <button
                     className="rounded-full md:bg-indigo-900 px-5 py-3 text-l font-semibold text-black md:text-white hover:bg-indigo-50   dark:hover:text-indigo-300  "
                   >
-                    Sign Up
+                    <Link to='/register'>Sign Up</Link>
                   </button>
                 </div>
               </li>
