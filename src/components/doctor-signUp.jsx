@@ -1,8 +1,8 @@
 function DoctorRegister() {
     return (
-        <section class="  bg-[url('../src/assets/img/background1.png')] ">
+        <section class="mt-10">
 
-        <div className="flex flex-col lg:flex-row justify-center ">
+        <div className="flex flex-col lg:flex-row justify-center  ">
             {/* <div className="lg:w-50 bg-indigo-100">
                 <div className="p-8">
                     <h1 className="text-3xl text-indigo-900 font-bold">Health
@@ -12,7 +12,7 @@ function DoctorRegister() {
                 </div>
                 <img src="" alt="Health Genius" className="mt-auto" />
             </div> */}
-            <div className=" sm:w-auto sm:ml-10 lg:w-50 p-10 bg-indigo-200">
+            <div className=" sm:w-auto sm:ml-10 lg:w-50 p-10 bg-indigo-200  rounded-lg">
                 <h2 className="text-3xl font-bold mb-4 text-indigo-900">Registration Form</h2>
                 <div className="flex flex-wrap mb-4">
                     <div className="flex flex-col">
