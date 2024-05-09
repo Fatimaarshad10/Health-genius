@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 function Register() {
     return (
         <>
-        <div className="flex justify-center items-center h-screen">
+        <section class="h-screen w-full bg-no-repeat bg-[url('../src/assets/img/background1.png')] ">
+        <div className=" flex justify-center items-center ">
+            <div className="max-w-m p-20 bg-white rounded-lg shadow dark:bg-indigo-200 mt-20 ">
             <div className="text-center">
                 <h1 className="text-3xl lg:text-5xl font-bold text-black text-left">Welcome to<br /> <span className="text-indigo-900">Health</span> Genius</h1>
                 <h1 className="font-bold text-lg text-left mt-4">New here!</h1>
@@ -18,7 +20,11 @@ function Register() {
                 </div>
             </div>
         </div>
+        </div>
+
+</section>
     </>
+
     
     )
 }
