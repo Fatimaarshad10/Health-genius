@@ -7,6 +7,8 @@ import Services from "./services"
 import Footer from "./footer"
 import Testimonials from "./testimonials"
 import Register from "./register";
+import MainSearch from "./mainSearch";
+import Dashboard from "./Dashboard";
 const Pages = {
   Home,
   Navbar,
@@ -15,6 +17,8 @@ const Pages = {
   Services,
   Footer,
   Testimonials,
-  Register
+  Register,
+  MainSearch,
+  Dashboard
 };
 export default Pages;

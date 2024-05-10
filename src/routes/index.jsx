@@ -3,6 +3,7 @@ import Pages from "../pages";
 import Login from "../components/login";
 import DoctorRegister from "../components/doctor-signUp";
 import PatientRegister from "../components/patient-signUp";
+
 export const AllRoutes = [
   {
     path: "/",
@@ -31,5 +32,13 @@ export const AllRoutes = [
   {
     path: "/services",
     page: <Pages.Services />,
+  },
+  {
+    path: "/search-result",
+    page: <Pages.MainSearch />,
+  },
+  {
+    path: "/doctor/dashboard",
+    page: <Pages.Dashboard />,
   },
 ];
