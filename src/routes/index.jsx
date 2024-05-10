@@ -3,7 +3,6 @@ import Pages from "../pages";
 import Login from "../components/login";
 import DoctorRegister from "../components/doctor-signUp";
 import PatientRegister from "../components/patient-signUp";
-
 export const AllRoutes = [
   {
     path: "/",
@@ -40,5 +39,9 @@ export const AllRoutes = [
   {
     path: "/doctor/dashboard",
     page: <Pages.Dashboard />,
+  },
+  {
+    path: "/doctor/detail",
+    page: <Pages.DoctorProfile />,
   },
 ];

@@ -9,6 +9,8 @@ import Testimonials from "./testimonials"
 import Register from "./register";
 import MainSearch from "./mainSearch";
 import Dashboard from "./Dashboard";
+import DoctorProfile from './doctor-details'
+
 const Pages = {
   Home,
   Navbar,
@@ -19,6 +21,7 @@ const Pages = {
   Testimonials,
   Register,
   MainSearch,
-  Dashboard
+  Dashboard,
+  DoctorProfile
 };
 export default Pages;
