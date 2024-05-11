@@ -104,32 +104,32 @@ function Graph() {
                 <div>
                 </div>
                 <div style={{ width: "100%" }}>
-                <Bar
-          data={{
-            labels: data.map((data) => data.label),
-            datasets: [
-              {
-                label: "Count",
-                data: data.map((data) => data.revenue),
-                backgroundColor: [
-                  "rgba(43, 63, 229, 0.8)",
-                  "rgba(250, 192, 19, 0.8)",
-                  "rgba(253, 135, 135, 0.8)",
-                ],
-                borderRadius: 5,
-              },
-            ],
-          }}
-          options={{
-            plugins: {
-              title: {
-                text: "Revenue Source",
-              },
-            },
-          }}
-        />
+                    <Bar
+                        data={{
+                            labels: data.map((data) => data.label),
+                            datasets: [
+                                {
+                                    label: "Count",
+                                    data: data.map((data) => data.revenue),
+                                    backgroundColor: [
+                                        "rgba(43, 63, 229, 0.8)",
+                                        "rgba(250, 192, 19, 0.8)",
+                                        "rgba(253, 135, 135, 0.8)",
+                                    ],
+                                    borderRadius: 5,
+                                },
+                            ],
+                        }}
+                        options={{
+                            plugins: {
+                                title: {
+                                    text: "Revenue Source",
+                                },
+                            },
+                        }}
+                    />
 
-</div>
+                </div>
             </div>
 
         </>

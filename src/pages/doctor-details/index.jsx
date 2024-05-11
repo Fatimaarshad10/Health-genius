@@ -1,4 +1,4 @@
-import React , {useState} from "react";
+import React, { useState } from "react";
 import backgroundImage from "../../assets/img/Heart.jpeg"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -16,8 +16,8 @@ const DoctorProfile = () => {
         </div>
       </div>
 
-      <div className="bg-gray-100 p-6 mt-4 flex flex-col md:flex-row">
-        <div className="md:mr-4 ">
+      <div className=" p-6 mt-4 flex flex-col md:flex-row">
+        <div className="md:mr-4 border border-gray-400 p-10">
           <h1 className="text-2xl font-bold">Dr. Ahmed Alvi</h1>
           <p className="mb-4">Al-Shifa hospital, cannal foad, Islamabad</p>
           <hr />
@@ -29,7 +29,7 @@ const DoctorProfile = () => {
             the latest advancements in the field ensures that patients receive cutting-edge care.</p>
           <p className='mt-4 text-indigo-700'>See More</p>
         </div>
-        <div className="border border-gray-400 w-full md:w-full xl:w-full p-4 mt-4 md:mt-0">
+        <div className=" w-full border border-gray-400 md:w-full xl:w-full p-4 mt-4 md:mt-0">
           <p className="text-2xl font-bold">Medical Actions</p>
           <ul className="list-disc pl-8">
             <li>BERA (Brainstem Evoked Response Audiometry)</li>
@@ -55,18 +55,18 @@ const DoctorProfile = () => {
       <div className=" p-6 mt-4 flex flex-col md:flex-row justify-between">
         <div className=" ">
           <h1 className="text-2xl font-bold">3,876 Community reviews</h1>
-          <div className="flex flex-row gap-40 mt-10 ml-20 text-center ">
+          <div className="flex lg:flex-row flex-col lg:gap-40 mt-10 lg:ml-20 text-center ">
             <div className="">
-              <h1 className="text-xl ">Wait time</h1>
-              <p className="mt-5">12min</p>
+              <h1 className="text-xl  ">Wait time</h1>
+              <p className="lg:mt-5">12min</p>
             </div>
             <div>
-              <h1 className="text-xl ">Avg. patient time</h1>
-              <p className="mt-5">15min</p>
+              <h1 className="text-xl mt-2 lg:mt-0">Avg. patient time</h1>
+              <p className="lg:mt-5">15min</p>
             </div>
             <div>
-              <h1 className="text-xl ">Diagnosis satisfaction</h1>
-              <p className="mt-5">96%</p>
+              <h1 className="text-xl mt-2 lg:mt-0">Diagnosis satisfaction</h1>
+              <p className="lg:mt-5">96%</p>
             </div>
           </div>
           <div className="flex flex-col mt-10 ">
@@ -121,153 +121,141 @@ const DoctorProfile = () => {
               <p className="text-green-900">Online</p>
             </div>
           </div>
-          
-<form class="max-w-[16rem] mx-auto grid grid-cols-2 gap-4 mt-5">
-    <div>
-        <label for="start-time" class="block mb-2 text-sm font-medium ">Start time:</label>
-        <div class="relative">
-            <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
-                <svg class="w-4 h-4 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                    <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
-                </svg>
+
+          <form class="max-w-[16rem] mx-auto grid grid-cols-2 gap-4 mt-5">
+            <div>
+              <label for="start-time" class="block mb-2 text-sm font-medium ">Start time:</label>
+              <div class="relative">
+                <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                  <svg class="w-4 h-4 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+                <input type="time" id="start-time" class=" border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " min="09:00" max="18:00" value="00:00" required />
+              </div>
             </div>
-            <input type="time" id="start-time" class=" border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " min="09:00" max="18:00" value="00:00" required />
-        </div>
-    </div>
-    <div>
-        <label for="end-time" class="block mb-2 text-sm font-medium ">End time:</label>
-        <div class="relative">
-            <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
-                <svg class="w-4 h-4 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                    <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
-                </svg>
+            <div>
+              <label for="end-time" class="block mb-2 text-sm font-medium ">End time:</label>
+              <div class="relative">
+                <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                  <svg class="w-4 h-4 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+                <input type="time" id="end-time" class=" border leading-none border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  " min="09:00" max="18:00" value="00:00" required />
+              </div>
             </div>
-            <input type="time" id="end-time" class=" border leading-none border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  " min="09:00" max="18:00" value="00:00" required />
+          </form>
+          <div className="mt-5 lg:ml-3 ml-20 ">
+            <DatePicker
+              showIcon
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+              className="rounded"
+              icon={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1em"
+                  height="1em"
+                  className="mt-1"
+                  viewBox="0 0 48 48"
+                >
+                  <mask id="ipSApplication0">
+                    <g fill="none" stroke="#fff" strokeLinejoin="round" strokeWidth="4">
+                      <path strokeLinecap="round" d="M40.04 22v20h-32V22"></path>
+                      <path
+                        fill="#fff"
+                        d="M5.842 13.777C4.312 17.737 7.263 22 11.51 22c3.314 0 6.019-2.686 6.019-6a6 6 0 0 0 6 6h1.018a6 6 0 0 0 6-6c0 3.314 2.706 6 6.02 6c4.248 0 7.201-4.265 5.67-8.228L39.234 6H8.845l-3.003 7.777Z"
+                      ></path>
+                    </g>
+                  </mask>
+                  <path
+                    fill="currentColor"
+                    d="M0 0h48v48H0z"
+                    mask="url(#ipSApplication0)"
+                  ></path>
+                </svg>
+              }
+            />
+          </div>
         </div>
-    </div>
-</form>
-<div className="mt-5 ml-3">
-  <DatePicker
-      showIcon
-      selected={startDate}
-      onChange={(date) => setStartDate(date)}
-      icon={
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="1em"
-          height="1em"
-          viewBox="0 0 48 48"
-        >
-          <mask id="ipSApplication0">
-            <g fill="none" stroke="#fff" strokeLinejoin="round" strokeWidth="4">
-              <path strokeLinecap="round" d="M40.04 22v20h-32V22"></path>
-              <path
-                fill="#fff"
-                d="M5.842 13.777C4.312 17.737 7.263 22 11.51 22c3.314 0 6.019-2.686 6.019-6a6 6 0 0 0 6 6h1.018a6 6 0 0 0 6-6c0 3.314 2.706 6 6.02 6c4.248 0 7.201-4.265 5.67-8.228L39.234 6H8.845l-3.003 7.777Z"
-              ></path>
-            </g>
-          </mask>
-          <path
-            fill="currentColor"
-            d="M0 0h48v48H0z"
-            mask="url(#ipSApplication0)"
-          ></path>
-        </svg>
-      }
-    />
-    </div>
-        </div>
-        
+
       </div>
-      <div class='flex flex-col md:flex-row'>
-        <div class="border border-indigo-900 w-full md:w-max mx-5 p-6 mt-4">
-          <div class="flex flex-col">
-            <h1 class='text-2xl font-bold mb-6 ml-5'>Qualification</h1>
-            <div class="relative overflow-x-auto">
-              <table class="w-full text-md text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-900 uppercase dark:text-gray-400">
-                  <tr>
-                    <th scope="col" class="text-center text-lg">
-                      Institute
-                    </th>
-                    <th scope="col" class="text-center text-lg">
-                      Degree
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class=" dark:bg-gray-800 text-center">
-                    <td class="px-6 py-4">
-                      Rawalpindi medical college, Pakistan
-                    </td>
-                    <td class="px-6 py-4">
-                      MBBS
-                    </td>
-                  </tr>
-                  <tr class=" dark:bg-gray-800 text-center">
-                    <td class="px-6 py-4">
-                      College of physicians and surgeons, Pakistan
-                    </td>
-                    <td class="px-6 py-4">
-                      FCPS (ENT)
-                    </td>
-                  </tr>
-                  <tr class=" dark:bg-gray-800 text-center">
-                    <td class="px-6 py-4">
-                      American academy of anesthetic medicine
-                    </td>
-                    <td class="px-6 py-4">
-                      CME
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+      <div class="border border-indigo-900  p-5 w-full mt-10 
+       ">
+        <h1 class='text-2xl font-bold mb-6 ml-5'>Qualification</h1>
+        <div className="flex flex-row p-5 gap-60">
+          <div className="flex flex-col ">
+            <h1 class='text-2xl'>Institute</h1>
+            <p className="mt-10"> Rawalpindi medical college, Pakistan</p>
+            <hr class="h-px my-8  "></hr>
+
+            <p className="mt-5 ">
+              College of physicians and surgeons, Pakistan
+            </p>
+            <hr class="h-px my-8 "></hr>
+            <p className="mt-5  ">
+              American academy of anesthetic medicine
+            </p>
+            <hr class="h-px my-8 "></hr>
+
+          </div>
+          <div className="flex flex-col">
+            <h1 class='text-2xl'>Position</h1>
+            <p className="mt-10">  MBBS</p>
+            <hr class="h-px my-8  "></hr>
+
+            <p className="mt-5">
+              FCPS (ENT)
+            </p>
+            <hr class="h-px my-8  "></hr>
+
+            <p className="mt-5">
+              CME
+            </p>
+            <hr class="h-px my-8  "></hr>
+
           </div>
         </div>
-        <div class="border border-indigo-900 w-full md:w-max mx-5 p-6 mt-4">
-          <h1 class='text-2xl font-bold mb-6 ml-5'>Experience</h1>
-          <div class="relative overflow-x-auto">
-            <table class="w-full text-md text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-900 uppercase dark:text-gray-400">
-                <tr>
-                  <th scope="col" class="text-center text-lg">
-                    Hospital
-                  </th>
-                  <th scope="col" class="text-center text-lg">
-                    Position
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class=" dark:bg-gray-800 text-center">
-                  <td class="px-6 py-4">
-                    Al-Shifa hospital, Islamabad
-                  </td>
-                  <td class="px-6 py-4">
-                    ENT Specialist
-                  </td>
-                </tr>
-                <tr class=" dark:bg-gray-800 text-center">
-                  <td class="px-6 py-4">
-                    King edward university/mayo hospital, Lahore
-                  </td>
-                  <td class="px-6 py-4">
-                    Assistant professor ENT
-                  </td>
-                </tr>
-                <tr class=" dark:bg-gray-800 text-center">
-                  <td class="px-6 py-4">
-                    King edward university/mayo hospital, Lahore
-                  </td>
-                  <td class="px-6 py-4">
-                    Senior Registrar
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+
+      </div>
+      <div class="border border-indigo-900  p-5 w-full mt-10 
+       ">
+        <h1 class='text-2xl font-bold mb-6 ml-5'>Experience</h1>
+        <div className="flex flex-row p-5 gap-60">
+          <div className="flex flex-col ">
+            <h1 class='text-2xl'>Hospital</h1>
+            <p className="mt-10"> Al-Shifa hospital, Islamabad</p>
+            <hr class="h-px my-8  "></hr>
+
+            <p className="mt-5 ">
+              King edward university/mayo hospital, Lahore
+            </p>
+            <hr class="h-px my-8 "></hr>
+            <p className="mt-5  ">
+              King edward university/mayo hospital, Lahore
+            </p>
+            <hr class="h-px my-8 "></hr>
+
+          </div>
+          <div className="flex flex-col">
+            <h1 class='text-2xl'>Position</h1>
+            <p className="mt-10">  ENT Specialist</p>
+            <hr class="h-px my-8  "></hr>
+
+            <p className="mt-5">
+              Assistant professor ENT
+            </p>
+            <hr class="h-px my-8  "></hr>
+
+            <p className="mt-5">
+              Senior Registrar
+            </p>
+            <hr class="h-px my-8  "></hr>
+
           </div>
         </div>
+
       </div>
       <h1 className="text-2xl font-bold mt-5 mb-5 ml-10">Professional Statement by Dr. Ahmed Alvi</h1>
       <h1 className="text-lg font-semibold mt-5 ml-10">Dr. Ahmed Alvi ENT,Islamabad Appointment details:</h1>

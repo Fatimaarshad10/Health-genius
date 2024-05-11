@@ -10,7 +10,9 @@ function App() {
 
   // Check if the current path is for login or register
   const hideNavbar = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/doctor/signup' ||
-  location.pathname === '/patient/signup' || location.pathname === '/doctor/dashboard';
+    location.pathname === '/patient/signup' || location.pathname === '/doctor/dashboard'
+    || location.pathname === '/doctor/dashboard/appointments'
+    || location.pathname === '/doctor/dashboard/chats';
 
   return (
     <>
@@ -25,7 +27,7 @@ function App() {
         ))}
       </Routes>
       {!hideNavbar && <Pages.Footer />}
-      
+
     </>
   );
 }

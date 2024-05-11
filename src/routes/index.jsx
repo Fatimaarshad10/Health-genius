@@ -3,6 +3,10 @@ import Pages from "../pages";
 import Login from "../components/login";
 import DoctorRegister from "../components/doctor-signUp";
 import PatientRegister from "../components/patient-signUp";
+import Appointment from "../components/Dashboard/appointment";
+import DashboardDetail from "../components/Dashboard/dashboard";
+import Chats from "../components/Dashboard/chat";
+import Reports from "../components/Dashboard/report";
 export const AllRoutes = [
   {
     path: "/",
@@ -38,7 +42,19 @@ export const AllRoutes = [
   },
   {
     path: "/doctor/dashboard",
-    page: <Pages.Dashboard />,
+    page: <DashboardDetail/>,
+  },
+  {
+    path: "/doctor/dashboard/appointments",
+    page: <Appointment />,
+  },
+  {
+    path: "/doctor/dashboard/chats",
+    page: <Chats />,
+  },
+  {
+    path: "/doctor/dashboard/reports",
+    page: <Reports />,
   },
   {
     path: "/doctor/detail",
