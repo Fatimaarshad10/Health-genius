@@ -60,4 +60,12 @@ export const AllRoutes = [
     path: "/doctor/detail",
     page: <Pages.DoctorProfile />,
   },
+  {
+    path: "/patient/profile",
+    page: <Pages.PatientProfile />,
+  },
+  {
+    path: "/patient/create/report",
+    page: <Pages.Model/>,
+  },
 ];

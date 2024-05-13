@@ -10,7 +10,8 @@ import Register from "./register";
 import MainSearch from "./mainSearch";
 import Dashboard from "./Dashboard";
 import DoctorProfile from './doctor-details'
-
+import PatientProfile from "./patientProfile";
+import Model from "./createReport";
 const Pages = {
   Home,
   Navbar,
@@ -22,6 +23,8 @@ const Pages = {
   Register,
   MainSearch,
   Dashboard,
-  DoctorProfile
+  DoctorProfile,
+  PatientProfile,
+  Model
 };
 export default Pages;

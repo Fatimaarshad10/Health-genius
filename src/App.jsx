@@ -12,7 +12,8 @@ function App() {
   const hideNavbar = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/doctor/signup' ||
     location.pathname === '/patient/signup' || location.pathname === '/doctor/dashboard'
     || location.pathname === '/doctor/dashboard/appointments'
-    || location.pathname === '/doctor/dashboard/chats';
+    || location.pathname === '/doctor/dashboard/chats' 
+    || location.pathname === '/doctor/dashboard/reports';
 
   return (
     <>
