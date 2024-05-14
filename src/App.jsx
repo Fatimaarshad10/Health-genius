@@ -4,6 +4,8 @@ import { AllRoutes } from "./routes";
 import Pages from './pages';
 import './app.css'
 import './index.css';
+import store from "./store";
+import { Provider } from "react-redux";
 
 function App() {
   const location = useLocation();
@@ -17,7 +19,9 @@ function App() {
 
   return (
     <>
+     <Provider store={store}>
       {!hideNavbar && <Pages.Navbar />}
+
       <Routes>
         {AllRoutes?.map((item, index) => (
           <Route
@@ -28,6 +32,7 @@ function App() {
         ))}
       </Routes>
       {!hideNavbar && <Pages.Footer />}
+      </Provider>
 
     </>
   );
