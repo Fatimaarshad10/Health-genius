@@ -6,7 +6,8 @@ import './app.css'
 import './index.css';
 import store from "./store";
 import { Provider } from "react-redux";
-
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 function App() {
   const location = useLocation();
 
@@ -20,6 +21,13 @@ function App() {
   return (
     <>
      <Provider store={store}>
+     <ToastContainer
+              style={{
+                fontSize: "0.8rem",
+                fontWeight: 700,
+                zIndex: 999999999,
+              }}
+            />
       {!hideNavbar && <Pages.Navbar />}
 
       <Routes>
