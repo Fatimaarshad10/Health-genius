@@ -1,9 +1,14 @@
-function Extra() {
-    return (
-        <>
-           
+import React from "react";
+import { countries } from "countries-list";
 
-        </>
-    )
-}
-export default Extra
+const CountryDropdown = () => {
+    return (
+        <select> {
+            Object.keys(countries).map((code) => (
+                <option key={code} value={code}>
+                    {countries[code].name}
+                </option>))
+        }
+        </select>);
+};
+export default CountryDropdown;

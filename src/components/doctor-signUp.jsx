@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { doctorRegister } from "../apis/doctor";
 import * as yup from "yup";
-import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router";
+import { countries } from "countries-list";
+
 
 const schema = yup.object({
     first_name: yup.string().required("First Name is required"),
@@ -14,14 +15,33 @@ const schema = yup.object({
     experience: yup.string().required("Experience is required"),
     license: yup.string().required("License is required"),
     expertise: yup.string().required("Expertise is required"),
-    // location: yup.string().required("Location is required")
+    country: yup.string().required("Country is required"),
 });
 
 function DoctorRegister() {
     const [selectedImage, setSelectedImage] = useState(null);
-    const [loading, setLoading] = useState(false); 
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const [availabilityTimes, setAvailabilityTimes] = useState([
+        { day: "", start_time: "", end_time: "" }
+    ]);
 
+    const handleChangeData = (index, e) => {
+        const { name, value } = e.target;
+        const list = [...availabilityTimes];
+        list[index][name] = value;
+        setAvailabilityTimes(list);
+    };
+
+    const handleAdd = () => {
+        setAvailabilityTimes([...availabilityTimes, { day: "", start_time: "", end_time: "" }]);
+    };
+
+    const handleRemove = index => {
+        const list = [...availabilityTimes];
+        list.splice(index, 1);
+        setAvailabilityTimes(list);
+    };
     const {
         register,
         handleSubmit,
@@ -29,7 +49,6 @@ function DoctorRegister() {
         formState: { errors },
     } = useForm({
         resolver: yupResolver(schema),
-
     });
 
     const handleChange = (event) => {
@@ -41,34 +60,32 @@ function DoctorRegister() {
     const onSubmit = async (data) => {
         const formData = new FormData();
         Object.keys(data).map((item) => {
-          formData.append(item, data[item]);
+            formData.append(item, data[item]);
+        });
+        availabilityTimes.forEach((time, index) => {
+            formData.append(`availabilityTimes[${index}][day]`, time.day);
+            formData.append(`availabilityTimes[${index}][start_time]`, time.start_time);
+            formData.append(`availabilityTimes[${index}][end_time]`, time.end_time);
         });
         formData.append("image", selectedImage);
-        try {
-            const result =  doctorRegister(data);
-            toast.success(result?.message);
-        } catch (error) {
-            console.error('Error:', error.message);
-            toast.error('Failed to register');
-        }
+        doctorRegister(formData);
     };
     return (
         <section class="mt-10">
-
-            <div className="flex flex-col lg:flex-row justify-center  ">
+            <div className="flex flex-col lg:flex-row justify-center">
                 <div className=" sm:w-auto sm:ml-10 lg:w-50 p-10 bg-indigo-200  rounded-lg">
                     <h2 className="text-3xl font-bold mb-4 text-indigo-900">Registration Form</h2>
                     <div className="flex flex-wrap mb-4">
                         <div className="flex flex-col">
-                            <div className="mb-4 mr-4 w-full lg:w-52">
+                            <div className="mb-4 mr-4 w-full lg:w-80">
                                 <input type="name"
                                     {...register("first_name")}
                                     id="first_name" placeholder="Enter your name" class=" p-5 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5  " required />
 
                             </div>
-                            <div className="mb-4 mr-4 w-full lg:w-52">
+                            <div className="mb-4 mr-4 w-full lg:w-80">
                                 <input type="name"
-                                  {...register("last_name")} id="lastName" placeholder="Enter your last name " class="p-5 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5  " required />
+                                    {...register("last_name")} id="lastName" placeholder="Enter your last name " class="p-5 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5  " required />
 
                             </div>
                         </div>
@@ -100,7 +117,7 @@ function DoctorRegister() {
                                         onClick={() => fileInputRef.current.click()}
                                         className="theme-btn"
                                     >
-                                        Upload Photograph
+                                        Capture
                                     </button>
                                 </div>
                             </label>
@@ -111,25 +128,38 @@ function DoctorRegister() {
 
                     <div className="mb-4">
                         <input className="shadow-sm bg-indigo-200 border border-gray-300 text-black  text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-300 block w-full p-2.5 bg-white" id="email" type="text" placeholder="E-mail Address"
-                          {...register("email")} />
+                            {...register("email")} />
                     </div>
                     <div className="mb-4">
-                        <input className="shadow-sm bg-indigo-200 border border-gray-300  text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white" id="password" type="password" placeholder="Type Password" 
-                          {...register("password")}/>
+                        <input className="shadow-sm bg-indigo-200 border border-gray-300  text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white" id="password" type="password" placeholder="Type Password"
+                            {...register("password")} />
                     </div>
                     <div className="mb-4">
                         <input className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-300 block w-full p-2.5 bg-white" id="phone" type="number" placeholder="Phone number"
-                          {...register("phone_no")} />
+                            {...register("phone_no")} />
+                    </div>
+                    <h3 className="text-lg font-bold mb-2 text-indigo-900">Select Country</h3>
+
+                    <div className=" mb-4">
+                        <select    {...register("country")} id="country" className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white">
+
+                            {Object.keys(countries).map((code) => (
+                                <option key={code} value={code}>
+                                    {countries[code].name}
+                                </option>))
+                            }
+
+                        </select>
                     </div>
                     <h3 className="text-lg font-bold mb-2 text-indigo-900">Professional Information</h3>
                     <div className="mb-4">
-                        <input className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white" id="license" type="text" placeholder="Medical License NO" 
-                          {...register("license")}/>
+                        <input className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white" id="license" type="text" placeholder="Medical License NO"
+                            {...register("license")} />
                     </div>
                     <div className="flex mb-4">
                         <div className="mr-2 w-full lg:w-48">
-                            <select {...register("expertise")} id="field of expertise"   
-                            className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white">
+                            <select {...register("expertise")} id="field of expertise"
+                                className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white">
                                 <option value="" disabled selected>Field of expertise</option>
                                 <option value="1">Field 1</option>
                                 <option value="2">Field 2</option>
@@ -152,38 +182,75 @@ function DoctorRegister() {
                     <div className="mb-4">
                         <input   {...register("hospital_affiliation")} className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white" id="affiliation" type="text" placeholder="Hospital Affiliation (if applicable)" />
                     </div>
-                    <h3 className="text-lg font-bold mb-2 text-indigo-900">Work Address</h3>
-                    {/* <div className="flex mb-4">
-                        <div className="mr-2 w-full lg:w-32">
-                            <select    {...register("first_name")}id="country" className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white">
+                    <div className=" mb-4 ">
 
-                                <option value="" disabled selected>Country</option>
-                                <option value="1">Country 1</option>
-                                <option value="2">Country 2</option>
-                                <option value="3">Country 3</option>
-                            </select>
-                        </div>
-                        <div className="mr-2 w-full lg:w-32">
-                            <select    {...register("first_name")}id="state" className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white">
+                        <h3 className="text-lg font-bold mb-2 text-indigo-900">
+                            <button onClick={handleAdd} >Add Availability +
+                            </button></h3>
 
-                                <option value="" disabled selected>State</option>
-                                <option value="1">State 1</option>
-                                <option value="2">State 2</option>
-                                <option value="3">State 3</option>
-                            </select>
-                        </div>
-                        <div className="w-full lg:w-32">
-                            <select   {...register("first_name")} id="city" className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white">
+                        {availabilityTimes.map((time, index) => (
+                            <div key={index}>
+                                <div className=" flex mt-5  ">
+                                    <div className="lg:w-40 ">
+                                        <select
+                                            className="shadow-sm  bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white"
+                                            name="day"
+                                            value={time.day}
+                                            onChange={e => handleChangeData(index, e)}
+                                        >
+                                            <option value="">Select Day</option>
+                                            <option value="Monday">Monday</option>
+                                            <option value="Tuesday">Tuesday</option>
+                                            <option value="Wednesday">Wednesday</option>
+                                            <option value="Thursday">Thursday</option>
+                                            <option value="Friday">Friday</option>
+                                            <option value="Saturday">Saturday</option>
+                                            <option value="Sunday">Sunday</option>
+                                        </select>
+                                    </div>
 
-                                <option value="" disabled selected>City</option>
-                                <option value="1">City 1</option>
-                                <option value="2">City 2</option>
-                                <option value="3">City 3</option>
-                            </select>
-                        </div>
-                    </div> */}
+                                    <div className="lg:w-40 ">
 
-                    <button 
+                                        <input
+                                            type="time"
+                                            name="start_time"
+                                            className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white"
+                                            value={time.start_time}
+                                            onChange={e => handleChangeData(index, e)}
+                                        />
+                                    </div>
+
+                                    <div className="mr-2 w-full lg:w-40">
+
+                                        <input
+                                            type="time"
+                                            name="end_time"
+                                            className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white"
+                                            value={time.end_time}
+                                            onChange={e => handleChangeData(index, e)}
+                                        />
+                                    </div>
+                                    <div className="mr-2 w-full lg:w-20">
+                                        {index !== 0 && (
+                                            <button type="button"
+                                                className="text-lg font-bold mb-2 text-indigo-900   w-full p-2.5 "
+
+                                                onClick={() => handleRemove(index)}
+                                            >
+                                                X
+                                            </button>
+                                        )}
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        ))}
+
+                    </div>
+
+                    <button
                         onClick={handleSubmit(onSubmit)}
                         className="w-full rounded-lg bg-indigo-900 px-5 py-3 text-xl font-semibold text-white shadow-sm hover:border-2 hover:bg-white hover:text-indigo-900 hover:border-indigo-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-900">Sign up </button>
 

@@ -8,6 +8,7 @@ import store from "./store";
 import { Provider } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import DoctorRegister from './extraa'
 function App() {
   const location = useLocation();
 
@@ -20,14 +21,14 @@ function App() {
 
   return (
     <>
-     <Provider store={store}>
-     <ToastContainer
+    <ToastContainer
               style={{
                 fontSize: "0.8rem",
                 fontWeight: 700,
                 zIndex: 999999999,
               }}
             />
+     <Provider store={store}>
       {!hideNavbar && <Pages.Navbar />}
 
       <Routes>
@@ -41,7 +42,7 @@ function App() {
       </Routes>
       {!hideNavbar && <Pages.Footer />}
       </Provider>
-
+      {/* <DoctorRegister/> */}
     </>
   );
 }
