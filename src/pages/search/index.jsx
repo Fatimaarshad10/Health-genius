@@ -92,7 +92,7 @@ function Search() {
                         </div>
                     </div>
                     <div className="flex justify-center">
-                        <img src="public/assets/img/main-1.png" className="h-auto w-90 lg:w-90" alt="doctor_img" />
+                        <img src="/assets/img/main-1.png" className="h-auto w-90 lg:w-90" alt="doctor_img" />
                     </div>
                 </main>
             </div>
