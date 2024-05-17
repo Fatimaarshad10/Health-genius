@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 const schema = yup.object({
-    name: yup.string().required("User Name is required"),
+    first_name: yup.string().required("User Name is required"),
     email: yup.string().email("Invalid email").required("Email is required"),
     password: yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
 
@@ -30,8 +30,8 @@ function PatientRegister() {
                         <h1 className="text-center mt-5 mb-5">Sign up using your Email account</h1>
                         <div class="mb-5">
                             <input type="name"
-                                {...register("name")}
-                                id="name" placeholder="Enter your name" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5  " required />
+                                {...register("first_name")}
+                                id="first_name" placeholder="Enter your name" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5  " required />
                         </div>
                         <div class="mb-5">
                             <input type="email"

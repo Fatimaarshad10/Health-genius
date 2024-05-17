@@ -15,31 +15,31 @@ function App() {
   const hideNavbar = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/doctor/signup' ||
     location.pathname === '/patient/signup' || location.pathname === '/doctor/dashboard'
     || location.pathname === '/doctor/dashboard/appointments'
-    || location.pathname === '/doctor/dashboard/chats' 
+    || location.pathname === '/chats'
     || location.pathname === '/doctor/dashboard/reports';
 
   return (
     <>
-    <ToastContainer
-              style={{
-                fontSize: "0.8rem",
-                fontWeight: 700,
-                zIndex: 999999999,
-              }}
-            />
-     <Provider store={store}>
-      {!hideNavbar && <Pages.Navbar />}
+      <ToastContainer
+        style={{
+          fontSize: "0.8rem",
+          fontWeight: 700,
+          zIndex: 999999999,
+        }}
+      />
+      <Provider store={store}>
+        {!hideNavbar && <Pages.Navbar />}
 
-      <Routes>
-        {AllRoutes?.map((item, index) => (
-          <Route
-            key={index}
-            path={item.path}
-            element={item.page}
-          ></Route>
-        ))}
-      </Routes>
-      {!hideNavbar && <Pages.Footer />}
+        <Routes>
+          {AllRoutes?.map((item, index) => (
+            <Route
+              key={index}
+              path={item.path}
+              element={item.page}
+            ></Route>
+          ))}
+        </Routes>
+        {!hideNavbar && <Pages.Footer />}
       </Provider>
     </>
   );

@@ -49,7 +49,7 @@ export const AllRoutes = [
     page: <Appointment />,
   },
   {
-    path: "/doctor/dashboard/chats",
+    path: "/chats",
     page: <Chats />,
   },
   {

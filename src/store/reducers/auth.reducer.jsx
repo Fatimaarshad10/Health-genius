@@ -1,10 +1,10 @@
 import { setToken, setUser } from "../slices/auth.slice";
 import { postRequest } from "../../config/axiosConfig";
 
-export function verifyUser(email, password) {
+export function loginUser(email, password) {
   return async (dispatch) => {
     try {
-      const result = await postRequest("/login", {
+      const result = await postRequest("patient/login", {
         email,
         password,
       });
@@ -23,7 +23,7 @@ export function logoutAsync() {
   return async (dispatch) => {
     dispatch(setToken(""));
     dispatch(setUser({}));
-    dispatch({ type: "signout/logout" });
+    // dispatch({ type: "signout/logout" });
     return true;
   };
 }

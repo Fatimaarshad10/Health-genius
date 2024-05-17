@@ -1,8 +1,51 @@
+
+
+import React, { useState } from "react";
+import { loginUser } from "../store/reducers/auth.reducer";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+
 function Login() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [user, setUser] = useState({
+        email: "",
+        password: "",
+    });
+
+    const handleInputs = (event) => {
+        const { name, value } = event.target;
+        setUser(prevUser => ({
+            ...prevUser,
+            [name]: value
+        }));
+    };
+    const handleLogin = () => {
+        setIsLoading(true);
+        dispatch(loginUser(user.email.trim(), user.password))
+            .then((res) => {
+                toast.success(res?.message);
+                setIsLoading(false);
+                const userType = res?.data?.user.userType;
+                if (userType === "doctor") {
+                  navigate("/doctor/dashboard");
+                } else {
+                  navigate("/patient/profile");
+                }
+            })
+            .catch((error) => {
+                setIsLoading(false);
+                toast.error(error);
+            });
+    };
+
     return (
         <div className="flex flex-col lg:flex-row w-screen h-screen">
             <div className="flex justify-center items-center w-full h-full"
-           >
+            >
                 <div className="flex flex-col lg:flex-row justify-center items-center w-11/12 lg:w-1/2 p-8 
                ">
                     <img src="src/assets/img/plant.png" className="w-30 h-12 lg:w-32" alt="doctor_img" />
@@ -17,13 +60,26 @@ function Login() {
                 <form className="max-w-md w-full p-4 mt-8">
                     <div className="mb-4">
                         <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                        <input type="email" id="email" className="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="name@flowbite.com" required />
+                        <input
+                            className="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-white dark:border-gray-600 dark:placeholder-gray-400  "
+                            type="email"
+                            name="email"
+                            placeholder="email"
+                            onChange={handleInputs}
+                            required
+                        />
+
                     </div>
                     <div className="mb-4">
                         <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
-                        <input type="password" id="password" className="shadow-sm  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
+                        <input type="password"
+                            name="password"
+                            placeholder="password"
+                            onChange={handleInputs} id="password" className="shadow-sm  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-white dark:border-gray-600 dark:placeholder-gray-400" required />
                     </div>
-                    <button type="submit" className="w-full rounded-lg bg-indigo-900 px-5 py-3 text-xl font-semibold text-white shadow-sm hover:border-2 hover:bg-white hover:text-indigo-900 hover:border-indigo-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-900">Login</button>
+                    <button
+                        onClick={handleLogin}
+                        disabled={isLoading} className="w-full rounded-lg bg-indigo-900 px-5 py-3 text-xl font-semibold text-white shadow-sm hover:border-2 hover:bg-white hover:text-indigo-900 hover:border-indigo-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-900"> {isLoading ? "Logging In..." : "Login"}</button>
                 </form>
             </div>
         </div>

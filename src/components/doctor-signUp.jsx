@@ -4,7 +4,6 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router";
-import { countries } from "countries-list";
 
 
 const schema = yup.object({
@@ -14,8 +13,8 @@ const schema = yup.object({
     password: yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
     experience: yup.string().required("Experience is required"),
     license: yup.string().required("License is required"),
-    expertise: yup.string().required("Expertise is required"),
-    country: yup.string().required("Country is required"),
+    specialist: yup.string().required("Specialist is required"),
+    city: yup.string().required("Country is required"),
 });
 
 function DoctorRegister() {
@@ -68,7 +67,9 @@ function DoctorRegister() {
             formData.append(`availabilityTimes[${index}][end_time]`, time.end_time);
         });
         formData.append("image", selectedImage);
-        doctorRegister(formData);
+        setLoading(true)
+        doctorRegister(formData, navigate, setLoading);
+
     };
     return (
         <section class="mt-10">
@@ -141,14 +142,12 @@ function DoctorRegister() {
                     <h3 className="text-lg font-bold mb-2 text-indigo-900">Select Country</h3>
 
                     <div className=" mb-4">
-                        <select    {...register("country")} id="country" className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white">
-
-                            {Object.keys(countries).map((code) => (
-                                <option key={code} value={code}>
-                                    {countries[code].name}
-                                </option>))
-                            }
-
+                        <select    {...register("city")} id="city" className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white">
+                            <option value="">Select City</option>
+                            <option value="Faisalabad">Faisalabad</option>
+                            <option value="Lahore">Lahore</option>
+                            <option value="Karachi">Karachi</option>
+                            <option value="Islamabad">Islamabad</option>
                         </select>
                     </div>
                     <h3 className="text-lg font-bold mb-2 text-indigo-900">Professional Information</h3>
@@ -158,29 +157,35 @@ function DoctorRegister() {
                     </div>
                     <div className="flex mb-4">
                         <div className="mr-2 w-full lg:w-48">
-                            <select {...register("expertise")} id="field of expertise"
+                            <select {...register("specialist")} id="Specialist"
                                 className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white">
-                                <option value="" disabled selected>Field of expertise</option>
-                                <option value="1">Field 1</option>
-                                <option value="2">Field 2</option>
-                                <option value="3">Field 3</option>
+                                <option value="" disabled selected>Specialist</option>
+                                <option value="Dermatologist">Dermatologist</option>
+                                <option value="Gynecologists">Gynecologists</option>
+                                <option value="Psychiatrists">Psychiatrists</option>
                             </select>
                         </div>
                         <div className="mr-2 w-full lg:w-48">
-                            <select   {...register("experience")} id="Years" className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white">
+                            <select {...register("experience")} id="Years" className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white">
 
                                 <option value="" disabled selected>Years of experience</option>
-                                <option value="1">Year 1</option>
-                                <option value="2">Year 2</option>
-                                <option value="3">Year 3</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
                             </select>
                         </div>
                     </div>
                     <div className="mb-4">
                         <input    {...register("medical_degree")} className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white" id="degree" type="text" placeholder="Medical Degree" />
                     </div>
-                    <div className="mb-4">
-                        <input   {...register("hospital_affiliation")} className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white" id="affiliation" type="text" placeholder="Hospital Affiliation (if applicable)" />
+                    <div className=" mb-4">
+                        <select    {...register("hospital_affiliation")} id="hospital_affiliation" className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white">
+                            <option value="">Select City</option>
+                            <option value="Faisalabad">Faisalabad</option>
+                            <option value="Lahore">Lahore</option>
+                            <option value="Karachi">Karachi</option>
+                            <option value="Islamabad">Islamabad</option>
+                        </select>
                     </div>
                     <div className=" mb-4 ">
 
@@ -252,7 +257,8 @@ function DoctorRegister() {
 
                     <button
                         onClick={handleSubmit(onSubmit)}
-                        className="w-full rounded-lg bg-indigo-900 px-5 py-3 text-xl font-semibold text-white shadow-sm hover:border-2 hover:bg-white hover:text-indigo-900 hover:border-indigo-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-900">Sign up </button>
+                        disabled={loading}
+                        className="w-full rounded-lg bg-indigo-900 px-5 py-3 text-xl font-semibold text-white shadow-sm hover:border-2 hover:bg-white hover:text-indigo-900 hover:border-indigo-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-900">{loading ? "Signing Up..." : "Sign up"}</button>
 
                 </div>
             </div>

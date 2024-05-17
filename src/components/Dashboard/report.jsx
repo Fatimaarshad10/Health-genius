@@ -1,9 +1,12 @@
 import Dashboard from "../../pages/Dashboard"
+import Navbar from "../../pages/navbar"
+
 function Reports() {
     return (
         <>
             <Dashboard />
             <div class="p-4 sm:ml-64">
+                <Navbar />
                 <div class="p-4 ">
                     <div className="flex flex-row justify-between text-center">
                         <h1 className="font-bold text-2xl">Reports</h1>
