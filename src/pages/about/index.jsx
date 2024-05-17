@@ -4,7 +4,7 @@ function About() {
             <div className="px-6  lg:px-8 ml-10 mr-10">
                 <main className="grid lg:grid-cols-2 gap-10">
                     <div className="flex justify-center">
-                        <img src="src/assets/img/about.png" className="h-auto w-90 lg:w-90 mt-8" alt="about" />
+                        <img src="public/assets/img/about.png" className="h-auto w-90 lg:w-90 mt-8" alt="about" />
                     </div>
                     <div className="main pt-8">
                         <p className="text-2xl leading-relaxed text-indigo-900 font-bold">

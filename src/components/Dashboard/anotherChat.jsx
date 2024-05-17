@@ -39,7 +39,8 @@ function ChatChecker (){
                                                     <div class="entry cursor-pointer transform hover:scale-105 duration-300 transition-transform bg-white  border-2  mb-4 rounded p-4 flex shadow-md">
                                                         <div class="flex-2  ">
                                                             <div class="w-12 h-12 relative">
-                                                                <img class="w-12 h-12 rounded-full mx-auto" src="/src/assets/img//profile-image.png" alt="chat-user" />
+                                                         
+                                                                <img class="w-12 h-12 rounded-full mx-auto" src="/public/assets/img/profile-image.png" alt="chat-user" />
                                                                 <span class="absolute w-4 h-4 bg-green-400 rounded-full right-0 bottom-0 border-2 border-white"></span>
                                                             </div>
                                                         </div>
@@ -59,7 +60,7 @@ function ChatChecker (){
                                                     <div class="entry cursor-pointer transform hover:scale-105 duration-300 transition-transform bg-white border-2 mb-4 rounded p-4 flex shadow-md">
                                                         <div class="flex-2">
                                                             <div class="w-12 h-12 relative">
-                                                                <img class="w-12 h-12 rounded-full mx-auto" src="/src/assets/img//profile-image.png" alt="chat-user" />
+                                                                <img class="w-12 h-12 rounded-full mx-auto" src="/public/assets/img/profile-image.png" alt="chat-user" />
                                                                 <span class="absolute w-4 h-4 bg-gray-400 rounded-full right-0 bottom-0 border-2 border-white"></span>
                                                             </div>
                                                         </div>
@@ -79,7 +80,7 @@ function ChatChecker (){
                                                     <div class="entry cursor-pointer transform hover:scale-105 duration-300 transition-transform bg-white border-2 mb-4 rounded p-4 flex shadow-md border-l-4 border-red-500">
                                                         <div class="flex-2">
                                                             <div class="w-12 h-12 relative">
-                                                                <img class="w-12 h-12 rounded-full mx-auto" src="/src/assets/img/profile-image.png" alt="chat-user" />
+                                                                <img class="w-12 h-12 rounded-full mx-auto" src="/public/assets/img/profile-image.png" alt="chat-user" />
                                                                 <span class="absolute w-4 h-4 bg-gray-400 rounded-full right-0 bottom-0 border-2 border-white"></span>
                                                             </div>
                                                         </div>
@@ -94,7 +95,7 @@ function ChatChecker (){
                                                     <div class="entry cursor-pointer transform hover:scale-105 duration-300 transition-transform bg-white border-2 mb-4 rounded p-4 flex shadow-md">
                                                         <div class="flex-2">
                                                             <div class="w-12 h-12 relative">
-                                                                <img class="w-12 h-12 rounded-full mx-auto" src="/src/assets/img//profile-image.png" alt="chat-user" />
+                                                                <img class="w-12 h-12 rounded-full mx-auto" src="/public/assets/img/profile-image.png" alt="chat-user" />
                                                                 <span class="absolute w-4 h-4 bg-gray-400 rounded-full right-0 bottom-0 border-2 border-white"></span>
                                                             </div>
                                                         </div>
@@ -117,7 +118,7 @@ function ChatChecker (){
                                                     <div class="message mb-4 flex">
                                                         <div class="flex-2">
                                                             <div class="w-12 h-12 relative">
-                                                                <img class="w-12 h-12 rounded-full mx-auto" src="/src/assets/img//profile-image.png" alt="chat-user" />
+                                                                <img class="w-12 h-12 rounded-full mx-auto" src="/public/assets/img/profile-image.png" alt="chat-user" />
                                                                 <span class="absolute w-4 h-4 bg-gray-400 rounded-full right-0 bottom-0 border-2 border-white"></span>
                                                             </div>
                                                         </div>
@@ -131,7 +132,7 @@ function ChatChecker (){
                                                     <div class="message mb-4 flex">
                                                         <div class="flex-2">
                                                             <div class="w-12 h-12 relative">
-                                                                <img class="w-12 h-12 rounded-full mx-auto" src="/src/assets/img//profile-image.png" alt="chat-user" />
+                                                                <img class="w-12 h-12 rounded-full mx-auto" src="/public/assets/img/profile-image.png" alt="chat-user" />
                                                                 <span class="absolute w-4 h-4 bg-gray-400 rounded-full right-0 bottom-0 border-2 border-white"></span>
                                                             </div>
                                                         </div>
@@ -161,7 +162,7 @@ function ChatChecker (){
                                                     <div class="message mb-4 flex">
                                                         <div class="flex-2">
                                                             <div class="w-12 h-12 relative">
-                                                                <img class="w-12 h-12 rounded-full mx-auto" src="/src/assets/img/profile-image.png" alt="chat-user" />
+                                                                <img class="w-12 h-12 rounded-full mx-auto" src="/public/assets/img/profile-image.png" alt="chat-user" />
                                                                 <span class="absolute w-4 h-4 bg-gray-400 rounded-full right-0 bottom-0 border-2 border-white"></span>
                                                             </div>
                                                         </div>

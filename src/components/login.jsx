@@ -48,7 +48,7 @@ function Login() {
             >
                 <div className="flex flex-col lg:flex-row justify-center items-center w-11/12 lg:w-1/2 p-8 
                ">
-                    <img src="src/assets/img/plant.png" className="w-30 h-12 lg:w-32" alt="doctor_img" />
+                    <img src="public/assets/img/plant.png" className="w-30 h-12 lg:w-32" alt="doctor_img" />
                     <h1 className="text-3xl text-indigo-900 font-bold">Health
                         <span className="text-3xl font-bold text-black">Genius</span>
                     </h1>
