@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import backgroundImage from "../../../public/assets/img/Heart.jpeg"
+// import backgroundImage from "../../../public/assets/img/Heart.jpeg"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 const DoctorProfile = () => {
@@ -9,7 +9,7 @@ const DoctorProfile = () => {
       <div className="relative min-h-screen">
         <div
           className="absolute inset-0 bg-cover bg-center h-3/4"
-          style={{ backgroundImage: `url(${backgroundImage})` }}
+          // style={{ backgroundImage: `url(${backgroundImage})` }}
         />
         <div className="relative flex items-end h-full">
           <img className="rounded-full w-48 h-48 ml-10 mt-80 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-60 lg:h-60 xl:w-72 xl:h-72" src="/public/assets/img/boy-1.jpg" alt="image description" />

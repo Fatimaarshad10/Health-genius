@@ -23,7 +23,7 @@ function PatientRegister() {
     };
     return (
         <>
-            <section class="h-screen w-full bg-no-repeat bg-[url('../public/assets/img/background1.png')] ">
+            <section class="h-screen w-full bg-no-repeat  ">
                 <div className="flex justify-center items-center ">
                     <form class="max-w-m mx-auto dark:bg-indigo-200 p-10 mt-20 rounded-lg ">
                         <h1 className="text-indigo-900 text-5xl text-center font-bold ">Create Account</h1>
