@@ -33,12 +33,12 @@ export default function Home() {
             </div>
           </div>
           <div className="flex justify-center">
-            <img src="src/assets/img/doctor.png" className="h-auto w-90 lg:w-90" alt="doctor_img" />
+            <img src="public/assets/img/doctor.png" className="h-auto w-90 lg:w-90" alt="doctor_img" />
           </div>
           <div className="flex items-center mt-10 lg:mt-0 justify-center lg:justify-start mb-10 ">
             <div className="flex flex-col items-center mr-8">
               <img
-                src="src/assets/img/hospital.jpeg"
+                src="public/assets/img/hospital.jpeg"
                 alt="Hospital Image"
                 className="h-16 w-16 lg:h-12 lg:w-12 rounded-full border-2 border-indigo-900 mt-3 md:mt-0"
               />
@@ -46,7 +46,7 @@ export default function Home() {
             </div>
             <div className="flex flex-col items-center mr-8">
               <img
-                src="src/assets/img/material.png"
+                src="public/assets/img/material.png"
                 alt="Material Image"
                 className="h-16 w-16 lg:h-12 lg:w-12 rounded-full border-2 border-indigo-900"
               />
@@ -54,7 +54,7 @@ export default function Home() {
             </div>
             <div className="flex flex-col items-center">
               <img
-                src="src/assets/img/chemical.png"
+                src="public/assets/img/chemical.png"
                 alt="Chemical Image"
                 className="h-16 w-16 lg:h-12 lg:w-12 rounded-full border-2 border-indigo-900"
               />

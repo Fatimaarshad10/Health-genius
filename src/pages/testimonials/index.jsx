@@ -9,7 +9,7 @@ function Testimonials() {
                         <a href="#" class="block max-w-sm p-6 rounded-lg bg-indigo-100 dark:border-indigo-200 dark:hover:bg-indigo-200">
                             <p class="font-normal text-gray-600 ">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                             <div class="flex flex-col lg:flex-row gap-5 mt-5">
-                                <img class="rounded-full w-20 h-20 object-cover" src="src/assets/img/girl-1.jpg" alt="image description" />
+                                <img class="rounded-full w-20 h-20 object-cover" src="public/assets/img/girl-1.jpg" alt="image description" />
                                 <div className="flex flex-col ">
                                     <h1 class="font-bold text-xs lg:text-xl mt-2 text-indigo-900">Aliha</h1>
                                     <p class="text-gray-600 ">Student of CS</p>
@@ -23,7 +23,7 @@ function Testimonials() {
                         <a href="#" class="block max-w-sm p-6 rounded-lg bg-indigo-100 dark:border-indigo-200 dark:hover:bg-indigo-200">
                             <p class="font-normal text-gray-600 ">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                             <div class="flex flex-col lg:flex-row gap-5 mt-5">
-                                <img class="rounded-full w-20 h-20 object-cover" src="src/assets/img/boy-1.jpg" alt="image description" />
+                                <img class="rounded-full w-20 h-20 object-cover" src="public/assets/img/boy-1.jpg" alt="image description" />
                                 <div className="flex flex-col ">
                                     <h1 class="font-bold text-xs lg:text-xl mt-2 text-indigo-900">Aliha</h1>
                                     <p class="text-gray-600">Student of CS</p>
@@ -37,7 +37,7 @@ function Testimonials() {
                         <a href="#" class="block max-w-sm p-6 rounded-lg bg-indigo-100 dark:border-indigo-200 dark:hover:bg-indigo-200">
                             <p class="font-normal text-gray-600 ">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                             <div class="flex flex-col lg:flex-row gap-5 mt-5">
-                                <img class="rounded-full w-20 h-20 object-cover" src="src/assets/img/boy-2.jpg" alt="image description"
+                                <img class="rounded-full w-20 h-20 object-cover" src="public/assets/img/boy-2.jpg" alt="image description"
                                 />
                                 <div className="flex flex-col ">
                                     <h1 class="font-bold text-xs lg:text-xl mt-2 text-indigo-900">Aliha</h1>
@@ -68,7 +68,7 @@ function Testimonials() {
             <div className="px-6  lg:px-8 ml-10 mr-10 mt-12">
                 <main className="grid lg:grid-cols-2 gap-10">
                     <div className="flex justify-center">
-                        <img src="src/assets/img/doctor-1.png" className="h-fit w-fit lg:w-90 mt-8" alt="about" />
+                        <img src="public/assets/img/doctor-1.png" className="h-fit w-fit lg:w-90 mt-8" alt="about" />
                     </div>
                     <div className="main pt-8 flex flex-col items-center justify-center">
                         <div>

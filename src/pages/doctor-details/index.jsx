@@ -73,10 +73,10 @@ const DoctorProfile = () => {
             <div className="border border-gray-200 p-10 ">
               <div className="flex flex-row justify-between">
                 <div className="flex flex-row  gap-3">
-                  <img class="rounded-full object-cover w-20 h-20" src="/src/assets/img/girl-1.jpg" alt="" />
+                  <img class="rounded-full object-cover w-20 h-20" src="/public/assets/img/girl-1.jpg" alt="" />
                   <h1 className="mt-5 font-bold text-xl">Verified Person</h1>
                 </div>
-                <img class=" flex object-cover w-100 h-10" src="/src/assets/img/message.png" alt="message" />
+                <img class=" flex object-cover w-100 h-10" src="/public/assets/img/message.png" alt="message" />
               </div>
               <div className="mt-5">
                 <p className="text-xl">Received excellent care and relief for my issues from a highly
@@ -86,10 +86,10 @@ const DoctorProfile = () => {
             <div className="border border-gray-200 p-10 relative">
               <div className="flex flex-row justify-between">
                 <div className="flex flex-row  gap-3">
-                  <img class="rounded-full object-cover w-20 h-20" src="/src/assets/img/girl-1.jpg" alt="" />
+                  <img class="rounded-full object-cover w-20 h-20" src="/public/assets/img/girl-1.jpg" alt="" />
                   <h1 className="mt-5 font-bold text-xl">Verified Person</h1>
                 </div>
-                <img class=" flex object-cover w-100 h-10" src="/src/assets/img/message.png" alt="message" />
+                <img class=" flex object-cover w-100 h-10" src="/public/assets/img/message.png" alt="message" />
               </div>
               <div className="mt-5">
                 <p className="text-xl">Received excellent care and relief for my issues from a highly

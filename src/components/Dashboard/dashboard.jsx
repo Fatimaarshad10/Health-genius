@@ -110,20 +110,20 @@ function DashboardDetail() {
                                                 Alaya
                                             </div>
                                             <div class="text-sm font-normal">
-                                                <img class=" object-cover w-5" src="/src/assets/img/phone.png" alt="message" />
+                                                <img class=" object-cover w-5" src="/public/assets/img/phone.png" alt="message" />
                                             </div>
                                         </div>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#" class="items-center rounded-full sm:flex lg:border lg:border-indigo-400 lg:bg-indigo-200 gap-2 p-2">
-                                        <img class="rounded-full object-cover w-20 h-20" src="/src/assets/img/girl-1.jpg" alt="" />
+                                        <img class="rounded-full object-cover w-20 h-20" src="/public/assets/img/girl-1.jpg" alt="" />
                                         <div class="flex flex-col sm:flex-row justify-between w-full gap-5">
                                             <div class="text-sm font-normal">
                                                 Alaya
                                             </div>
                                             <div class="text-sm font-normal">
-                                                <img class=" object-cover w-5" src="/src/assets/img/phone.png" alt="message" />
+                                                <img class=" object-cover w-5" src="/public/assets/img/phone.png" alt="message" />
 
                                             </div>
                                         </div>
