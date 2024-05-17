@@ -64,7 +64,7 @@ function DashboardDetail() {
                                 </div>
                             </div>
                             <div>
-                                <img class=" object-cover w-60 h-60 absolute ml-20 hidden sm:block " src="/public/assets/img/dashboard.png" alt=""
+                                <img class=" object-cover w-60 h-60 absolute ml-20 hidden sm:block " src="/assets/img/dashboard.png" alt=""
                                     style={{ marginTop: "-90px" }} />
 
                             </div>
@@ -78,52 +78,52 @@ function DashboardDetail() {
                             <ol class="flex justify-center gap-10 mt-10">
                                 <li>
                                     <a href="#" class="items-center rounded-full sm:flex lg:border lg:border-indigo-400  lg:bg-indigo-200 gap-2 p-2">
-                                        <img class="rounded-full object-cover w-20 h-20" src="/public/assets/img/girl-1.jpg" alt="" />
+                                        <img class="rounded-full object-cover w-20 h-20" src="/assets/img/girl-1.jpg" alt="" />
                                         <div class="flex flex-col sm:flex-row justify-between w-full gap-5">
                                             <div class="text-sm font-normal">
                                                 Alaya
                                             </div>
                                             <div class="text-sm font-normal">
-                                                <img class=" object-cover w-5" src="/public/assets/img/message.png" alt="message" />
+                                                <img class=" object-cover w-5" src="/assets/img/message.png" alt="message" />
                                             </div>
                                         </div>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#" class="items-center rounded-full sm:flex lg:border lg:border-indigo-400 lg:bg-indigo-200 gap-2 p-2">
-                                        <img class="rounded-full object-cover w-20 h-20" src="/public/assets/img/girl-1.jpg" alt="" />
+                                        <img class="rounded-full object-cover w-20 h-20" src="/assets/img/girl-1.jpg" alt="" />
                                         <div class="flex flex-col sm:flex-row justify-between w-full gap-5">
                                             <div class="text-sm font-normal">
                                                 Alaya
                                             </div>
                                             <div class="text-sm font-normal">
-                                                <img class=" object-cover w-5" src="/public/assets/img/phone.png" alt="message" />
+                                                <img class=" object-cover w-5" src="/assets/img/phone.png" alt="message" />
                                             </div>
                                         </div>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#" class="items-center lg:rounded-full sm:flex lg:border lg:border-indigo-400 lg:bg-indigo-200 gap-2 p-2">
-                                        <img class="rounded-full object-cover w-20 h-20" src="/public/assets/img/girl-1.jpg" alt="" />
+                                        <img class="rounded-full object-cover w-20 h-20" src="/assets/img/girl-1.jpg" alt="" />
                                         <div class="flex flex-col sm:flex-row justify-between w-full gap-5">
                                             <div class="text-sm font-normal">
                                                 Alaya
                                             </div>
                                             <div class="text-sm font-normal">
-                                                <img class=" object-cover w-5" src="/public/assets/img/phone.png" alt="message" />
+                                                <img class=" object-cover w-5" src="/assets/img/phone.png" alt="message" />
                                             </div>
                                         </div>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#" class="items-center rounded-full sm:flex lg:border lg:border-indigo-400 lg:bg-indigo-200 gap-2 p-2">
-                                        <img class="rounded-full object-cover w-20 h-20" src="/public/assets/img/girl-1.jpg" alt="" />
+                                        <img class="rounded-full object-cover w-20 h-20" src="/assets/img/girl-1.jpg" alt="" />
                                         <div class="flex flex-col sm:flex-row justify-between w-full gap-5">
                                             <div class="text-sm font-normal">
                                                 Alaya
                                             </div>
                                             <div class="text-sm font-normal">
-                                                <img class=" object-cover w-5" src="/public/assets/img/phone.png" alt="message" />
+                                                <img class=" object-cover w-5" src="/assets/img/phone.png" alt="message" />
 
                                             </div>
                                         </div>

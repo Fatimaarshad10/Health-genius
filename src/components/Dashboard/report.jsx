@@ -29,7 +29,7 @@ function Reports() {
                     <div className="flex flex-col ">
                         <div className="flex flex-row justify-between bg-indigo-200 p-5 rounded mt-5 ">
                             <div className="flex flex-row gap-5">
-                                <img class="rounded-full w-20 h-20 object-cover" src="/public/assets/img/girl-1.jpg" alt="image description" />
+                                <img class="rounded-full w-20 h-20 object-cover" src="/assets/img/girl-1.jpg" alt="image description" />
                                 <div>
                                     <h1 className="font-bold text-xl text-indigo-900 mt-5">Andrew</h1>
 
@@ -44,7 +44,7 @@ function Reports() {
                     <div className="flex flex-col ">
                         <div className="flex flex-row justify-between bg-indigo-200 p-5 rounded mt-5 ">
                             <div className="flex flex-row gap-5">
-                                <img class="rounded-full w-20 h-20 object-cover" src="/public/assets/img/girl-1.jpg" alt="image description" />
+                                <img class="rounded-full w-20 h-20 object-cover" src="/assets/img/girl-1.jpg" alt="image description" />
                                 <div>
                                     <h1 className="font-bold text-xl text-indigo-900 mt-5">Andrew</h1>
 
@@ -59,7 +59,7 @@ function Reports() {
                     <div className="flex flex-col ">
                         <div className="flex flex-row justify-between bg-indigo-200 p-5 rounded mt-5 ">
                             <div className="flex flex-row gap-5">
-                                <img class="rounded-full w-20 h-20 object-cover" src="/public/assets/img/girl-1.jpg" alt="image description" />
+                                <img class="rounded-full w-20 h-20 object-cover" src="/assets/img/girl-1.jpg" alt="image description" />
                                 <div>
                                     <h1 className="font-bold text-xl text-indigo-900 mt-5">Andrew</h1>
 

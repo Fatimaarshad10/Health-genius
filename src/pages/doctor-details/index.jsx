@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import backgroundImage from "../../../public/assets/img/Heart.jpeg"
+// import backgroundImage from "../../../assets/img/Heart.jpeg"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 const DoctorProfile = () => {
@@ -12,7 +12,7 @@ const DoctorProfile = () => {
           // style={{ backgroundImage: `url(${backgroundImage})` }}
         />
         <div className="relative flex items-end h-full">
-          <img className="rounded-full w-48 h-48 ml-10 mt-80 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-60 lg:h-60 xl:w-72 xl:h-72" src="/public/assets/img/boy-1.jpg" alt="image description" />
+          <img className="rounded-full w-48 h-48 ml-10 mt-80 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-60 lg:h-60 xl:w-72 xl:h-72" src="/assets/img/boy-1.jpg" alt="image description" />
         </div>
       </div>
 
@@ -73,10 +73,10 @@ const DoctorProfile = () => {
             <div className="border border-gray-200 p-10 ">
               <div className="flex flex-row justify-between">
                 <div className="flex flex-row  gap-3">
-                  <img class="rounded-full object-cover w-20 h-20" src="/public/assets/img/girl-1.jpg" alt="" />
+                  <img class="rounded-full object-cover w-20 h-20" src="/assets/img/girl-1.jpg" alt="" />
                   <h1 className="mt-5 font-bold text-xl">Verified Person</h1>
                 </div>
-                <img class=" flex object-cover w-100 h-10" src="/public/assets/img/message.png" alt="message" />
+                <img class=" flex object-cover w-100 h-10" src="/assets/img/message.png" alt="message" />
               </div>
               <div className="mt-5">
                 <p className="text-xl">Received excellent care and relief for my issues from a highly
@@ -86,10 +86,10 @@ const DoctorProfile = () => {
             <div className="border border-gray-200 p-10 relative">
               <div className="flex flex-row justify-between">
                 <div className="flex flex-row  gap-3">
-                  <img class="rounded-full object-cover w-20 h-20" src="/public/assets/img/girl-1.jpg" alt="" />
+                  <img class="rounded-full object-cover w-20 h-20" src="/assets/img/girl-1.jpg" alt="" />
                   <h1 className="mt-5 font-bold text-xl">Verified Person</h1>
                 </div>
-                <img class=" flex object-cover w-100 h-10" src="/public/assets/img/message.png" alt="message" />
+                <img class=" flex object-cover w-100 h-10" src="/assets/img/message.png" alt="message" />
               </div>
               <div className="mt-5">
                 <p className="text-xl">Received excellent care and relief for my issues from a highly
