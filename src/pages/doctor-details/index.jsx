@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import backgroundImage from "../../../public/assets/img/Heart-D3XopZsX.jpeg"
+import backgroundImage from "../../../public/assets/img/Heart.jpeg"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 const DoctorProfile = () => {
