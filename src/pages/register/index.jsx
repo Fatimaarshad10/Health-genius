@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function Register() {
     return (
         <>
-        <section class="h-screen w-full bg-no-repeat bg-[url('../public/assets/img/background1.png')] ">
+        <section class="h-screen w-full bg-no-repeat  ">
         <div className=" flex justify-center items-center ">
             <div className="max-w-m p-20 bg-white rounded-lg shadow dark:bg-indigo-200 mt-20 ">
             <div className="text-center">
