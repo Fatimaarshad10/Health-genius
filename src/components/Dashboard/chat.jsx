@@ -7,7 +7,7 @@ function Chats() {
 
     return (
         <>
-            {user?.userType === "patient" ? (
+            {user?.role === "patient" ? (
                 <>
                     <Navbar />
                     <ChatChecker />

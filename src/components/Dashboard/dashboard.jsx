@@ -4,8 +4,7 @@ import Navbar from '../../pages/navbar'
 import { useSelector } from "react-redux";
 
 function DashboardDetail() {
-  const user = useSelector((state) => state?.auth?.user);
-
+  const user = useSelector((state) => state?.auth?.detail);
     return (
         <>
         <Dashboard/>
@@ -16,7 +15,7 @@ function DashboardDetail() {
                 <div class="p-4 ">
                     <div className="flex lg:flex-row flex-col lg:gap-10 border p-5 ">
                         <div>
-                            <img class="rounded-full object-cover w-40 h-40" src={user.image} alt="" />
+                            {/* <img class="rounded-full object-cover w-40 h-40" src={user?.image} alt="" /> */}
                         </div>
                         <div className="mt-5">
                             <h1 className='text-2xl font-bold text-indigo-900'>Welcome Back </h1>

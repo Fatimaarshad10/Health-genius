@@ -29,7 +29,7 @@ function Login() {
             .then((res) => {
                 toast.success(res?.message);
                 setIsLoading(false);
-                const userType = res?.data?.user.userType;
+                const userType = res?.data?.user.role;
                 if (userType === "doctor") {
                   navigate("/doctor/dashboard");
                 } else {

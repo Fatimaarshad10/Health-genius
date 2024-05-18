@@ -2,8 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const PatientProfile = () => {
-    const user = useSelector((state) => state?.auth?.user);
-
+    const user = useSelector((state) => state?.auth?.detail);
     return (
         <>
             <div class="p-4 sm:ml-55">

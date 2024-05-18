@@ -24,7 +24,6 @@ function MainSearch() {
             alert(error.message);
         }
     };
-    console.log(searchResults)
 
     return (
         <>
