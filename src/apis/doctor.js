@@ -17,9 +17,6 @@ export async function doctorRegister(payload, navigate, setLoading) {
   return result;
 }
 
-
-
-
 //search Doctor
 export async function searchDoctor(query) {
   const result = await getRequest(`doctor/search/${query}`);

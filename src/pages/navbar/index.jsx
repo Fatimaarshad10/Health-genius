@@ -142,7 +142,7 @@ function Navbar() {
                         <span className="sr-only">Open user menu</span>
                         {detail?.image ? (
                           <>
-                            {/* <img className="w-10 h-10 rounded-full object-cover" src={user?.image} alt="user photo" /> */}
+                            <img className="w-10 h-10 rounded-full object-cover" src={user?.image} alt="user photo" />
 
                           </>
                         ) : (
