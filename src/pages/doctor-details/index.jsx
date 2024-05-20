@@ -1,25 +1,41 @@
 import React, { useState } from "react";
-// import backgroundImage from "../../../assets/img/Heart.jpeg"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
 const DoctorProfile = () => {
   const [startDate, setStartDate] = useState(new Date());
+  const user = useSelector((state) => state?.auth?.detail);
+
   return (
     <>
-      <div className="relative min-h-screen">
-        <div
-          className="absolute inset-0 bg-cover bg-center h-3/4"
-          // style={{ backgroundImage: `url(${backgroundImage})` }}
-        />
-        <div className="relative flex items-end h-full">
-          <img className="rounded-full w-48 h-48 ml-10 mt-80 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-60 lg:h-60 xl:w-72 xl:h-72" src="/assets/img/boy-1.jpg" alt="image description" />
-        </div>
-      </div>
 
+      <div className="flex lg:flex-col flex-col lg:gap-10 border rounded p-5 bg-indigo-100 ">
+        <div className=" text-center">
+          <>
+              <img className="rounded-full object-cover w-40 h-40 relative inline-flex items-center justify-center w-10 h-10 overflow-hidden rounded-full" src={user.image} alt="" />
+          </>
+        </div>
+        <div className="mt-5 flex flex-col">
+          <h1 className='text-2xl font-bold text-indigo-900 text-center uppercase'>{user.first_name}</h1>
+          <p className="text-center">{user.specialist} {user.city}</p>
+          <div className="flex flex-row text-center  justify-center">
+            <button
+              className=" md:bg-indigo-400 px-5 py-3 text-l font-semibold text-black 
+                    hover:bg-indigo-50   dark:hover:text-indigo-300  mt-5  "
+
+            >
+              Profile Setting
+            </button>
+          </div>
+
+        </div>
+
+      </div>
       <div className=" p-6 mt-4 flex flex-col md:flex-row">
         <div className="md:mr-4 border border-gray-400 p-10">
-          <h1 className="text-2xl font-bold">Dr. Ahmed Alvi</h1>
-          <p className="mb-4">Al-Shifa hospital, cannal foad, Islamabad</p>
+
           <hr />
           <h1 className="text-2xl font-bold mt-5">Doctor Profile</h1>
           <p className="mr-5">With a seasoned career spanning four years, our ENT specialist brings a wealth of
@@ -47,7 +63,8 @@ const DoctorProfile = () => {
             <button
               className="mt-5 rounded-md bg-indigo-900 px-4 py-2 text-md font-semibold text-white shadow-sm hover:border-2 hover:bg-white hover:text-indigo-900 hover:border-indigo-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-900"
             >
-              Book an appointment
+              <Link to="/book/appointment"> Book an appointment</Link>
+             
             </button>
           </div>
         </div>

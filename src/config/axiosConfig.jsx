@@ -1,4 +1,4 @@
-import apiEndpoint from "./environment";
+import {apiEndpoint }from "./environment";
 import store from "../store";
 import axios from "axios";
 

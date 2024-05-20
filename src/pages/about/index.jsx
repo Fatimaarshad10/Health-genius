@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 function About() {
     return (
         <>
@@ -30,12 +31,16 @@ function About() {
                                     className=" rounded-md bg-indigo-900 px-5 py-3 text-xl font-semibold text-white shadow-sm hover:border-2 hover:bg-white hover:text-indigo-900
                                  hover:border-indigo-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-900 mr-4"
                                 >
-                                    Book an appointment
+                                      <Link to="/book/appointment"> Book an appointment</Link>
+
                                 </button>
                                 <button
                                     className=" rounded-md px-5 py-3 font-semibold text-indigo-900 text-xl border-2 border-indigo-900 hover:bg-indigo-900 hover:text-white hover:border-white"
                                 >
-                                    About Us
+                                      <Link to="/about"> About Us</Link>
+
+                                    
+                                    
                                 </button>
                             </div>
                         </div>

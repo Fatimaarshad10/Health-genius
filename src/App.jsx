@@ -1,22 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, useLocation } from "react-router-dom";
+import { Provider, useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import io from 'socket.io-client'; 
 import { AllRoutes } from "./routes";
 import Pages from './pages';
-import './app.css'
+import './app.css';
 import './index.css';
 import store from "./store";
-import { Provider } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
-function App() {
+import {socketEndpoint} from './config/environment'
+function AppContent() {
   const location = useLocation();
+  const user = useSelector((state) => state?.auth?.user);
 
-  // Check if the current path is for login or register
-  const hideNavbar = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/doctor/signup' ||
-    location.pathname === '/patient/signup' || location.pathname === '/doctor/dashboard'
-    || location.pathname === '/doctor/dashboard/appointments'
-    || location.pathname === '/chats'
-    || location.pathname === '/doctor/dashboard/reports';
+  useEffect(() => {
+    const socket = io(`${socketEndpoint}`);
+    socket.on("connect", () => {
+      socket.emit("addUser", { userId: user._id });
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, [user._id]);
+
+  const hideNavbar = location.pathname === '/login' || 
+    location.pathname === '/register' || 
+    location.pathname === '/doctor/signup' ||
+    location.pathname === '/patient/signup' || 
+    location.pathname === '/doctor/dashboard' ||
+    location.pathname === '/doctor/dashboard/appointments' ||
+    location.pathname === '/chats' ||
+    location.pathname === '/doctor/dashboard/reports';
 
   return (
     <>
@@ -27,21 +42,26 @@ function App() {
           zIndex: 999999999,
         }}
       />
-      <Provider store={store}>
-        {!hideNavbar && <Pages.Navbar />}
-
-        <Routes>
-          {AllRoutes?.map((item, index) => (
-            <Route
-              key={index}
-              path={item.path}
-              element={item.page}
-            ></Route>
-          ))}
-        </Routes>
-        {!hideNavbar && <Pages.Footer />}
-      </Provider>
+      {!hideNavbar && <Pages.Navbar />}
+      <Routes>
+        {AllRoutes?.map((item, index) => (
+          <Route
+            key={index}
+            path={item.path}
+            element={item.page}
+          ></Route>
+        ))}
+      </Routes>
+      {!hideNavbar && <Pages.Footer />}
     </>
+  );
+}
+
+function App() {
+  return (
+    <Provider store={store}>
+      <AppContent />
+    </Provider>
   );
 }
 

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 function Testimonials() {
     return (
         <>
@@ -59,7 +60,8 @@ function Testimonials() {
                         <button
                             class="mt-2 sm:mt-0 ml-0 sm:ml-4 rounded-md bg-indigo-900 px-3 py-3 text-lg font-semibold text-white shadow-sm hover:border-2 hover:bg-white hover:text-indigo-900 hover:border-indigo-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-900"
                         >
-                            Book an appointment
+                            <Link to="/book/appointment">Book an appointment</Link>
+                          
                         </button>
 
                     </div>

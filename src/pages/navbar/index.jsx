@@ -140,7 +140,7 @@ function Navbar() {
                         onClick={handleMenuToggle}
                       >
                         <span className="sr-only">Open user menu</span>
-                        {detail?.image ? (
+                        {user?.image ? (
                           <>
                             <img className="w-10 h-10 rounded-full object-cover" src={user?.image} alt="user photo" />
 
@@ -148,7 +148,7 @@ function Navbar() {
                         ) : (
                           <>
                             <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-indigo-900 rounded-full ">
-                              <span class="font-medium text-white ">{detail?.first_name.charAt(0).toUpperCase()}</span>
+                              <span class="font-medium text-white ">{user?.first_name.charAt(0).toUpperCase()}</span>
                             </div>
                           </>
                         )}
@@ -156,7 +156,7 @@ function Navbar() {
                       </button>
                       <div className={`${isUserMenuOpen ? 'block' : 'hidden'} absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5`} id="user-dropdown">
                         <div className="py-1">
-                          <div className="px-4 py-2 text-m text-indigo-400 uppercase font-bold">{detail?.first_name}</div>
+                          <div className="px-4 py-2 text-m text-indigo-400 uppercase font-bold">{user?.first_name}</div>
                           <div className="px-4 py-2 text-sm text-gray-500 truncate">{user?.email}</div>
                           <div className="border-t border-gray-200"></div>
                           <ul className="py-2">

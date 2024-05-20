@@ -1,33 +1,65 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { searchUser, searchOneUser } from "../../apis/user";
-import { chat , allChat} from "../../apis/chat";
+import { searchUser } from "../../apis/user";
+import { chat, allChat } from "../../apis/chat";
 import io from "socket.io-client";
-
+import { apiEndpoint, socketEndpoint } from "../../config/environment";
+import axios from "axios";
+import { allInbox } from "../../apis/inbox";
 function ChatChecker() {
     const user = useSelector((state) => state?.auth?.user);
+    const token = useSelector((state) => state?.auth?.token);
+
     const detail = useSelector((state) => state?.auth?.detail);
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState(null);
-    const [sender, setSender] = useState(null)
     const [message, setMessage] = useState("")
     const [sendChat, setSendChat] = useState(null);
+    const [getChat, setGetChat] = useState(null);
+    const [inboxData, setInboxData] = useState([]);
+    const [error, setError] = useState(null);
+    const [inboxId, setInboxId] = useState("");
+    const [receiver, setReceiver] = useState("");
+    const [name, setName] = useState("");
 
-  
-    const handleSubmitChat = async (e) => {
-      e.preventDefault();
-      const payload = {
-        message,
-        sender : user._id,
-        receiver : sender?.data?.user?._id,
-      };
-  
-      const result = await chat(payload);
-      setSendChat(result)
-      if (result) {
-        setMessage('');
-      }
-    };
+
+    useEffect(() => {
+        const socket = io(`${socketEndpoint}`);
+        socket.on("connect", () => {
+            socket.emit("addUser", { userId: user._id });
+        });
+
+        socket.on("messageReceived", (savedMessage) => {
+            setGetChat((prevChat) => {
+                prevChat = prevChat || [];
+                console.log(prevChat)
+                return [...prevChat, savedMessage];
+
+            });
+        });
+        return () => {
+            socket.disconnect();
+        };
+
+    }, [inboxId, getChat]);
+
+    useEffect(() => {
+        const fetchInboxData = async () => {
+            try {
+                const response = await axios.get(`${apiEndpoint}inbox`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                setInboxData(response.data.data.inbox)
+            } catch (error) {
+                setError(error.response.data.message);
+            }
+        };
+
+        fetchInboxData();
+    }, [token, sendChat]);
+
 
 
     const handleSearch = async (e) => {
@@ -38,34 +70,48 @@ function ChatChecker() {
             setSearchResults(response);
 
         } catch (error) {
-            alert(error.message);
-        }
-    };
-    const handleOneUser = async (id) => {
-        try {
-            const response = await searchOneUser(id);
-            setSender(response);
-
-        } catch (error) {
-            alert(error.message);
+            console.error(error.message);
         }
     };
     useEffect(() => {
         const getAllChat = async () => {
             try {
-                const response = await allChat(sendChat?.data?.populateMessage?.inboxId);
-                console.log(response);
-    
+                const response = await allChat(inboxId);
+                setGetChat(response.data.chat);
+
             } catch (error) {
-                alert(error.message);
+                console.error(error.message);
             }
         };
         getAllChat()
-    }, [sendChat]);
+    }, [inboxId, sendChat])
+    const handleInboxClick = async (data) => {
+        setInboxId(data);
+        const oneInbox = await allInbox(data)
+        const one = oneInbox?.data?.inbox
+        setName(one?.senderId._id === user._id ? one.receiverId.first_name : one.senderId.first_name)
+        setReceiver(one?.senderId._id === user._id ? one.receiverId._id : one.senderId._id);
+    };
+    const handleSubmitChat = async (e) => {
+        e.preventDefault();
+        const payload = {
+            message,
+            sender: user._id,
+            receiver: receiver,
+            inboxId: inboxId
+        };
+
+        const result = await chat(payload);
+        setSendChat(result)
+        if (result) {
+            setMessage('');
+        }
+    };
+
     return (
         <>
             <div class="p-4 ">
-                <div class="w-full h-screen">
+                <div class="w-full  ">
                     <div class="flex h-full ">
                         <div class="flex-1  w-full h-full ">
                             <div class="main-body container m-auto  h-full flex flex-col">
@@ -89,66 +135,92 @@ function ChatChecker() {
                                                 </form>
 
                                             </div>
-                                            {searchResults?.data?.user?.map((data) => (
+                                            {inboxData?.map((data) => (
 
-                                                <div class="flex-1 h-full overflow-auto px-2 " key={data._id} onClick={() => handleOneUser(data._id)}>
-                                                    <div class="entry cursor-pointer transform hover:scale-105 duration-300 transition-transform bg-white border-2 mb-4 rounded p-4 flex shadow-md border-l-4 border-red-500">
-                                                        <div class="flex-2">
-                                                            <div class="w-12 h-12 relative">
-                                                                <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-indigo-900 rounded-full ">
-                                                                    <span class="font-medium text-white ">{data.first_name.charAt(0).toUpperCase()}</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="flex-1 px-2">
-                                                            <div class="truncate w-32"><span class="text-gray-800">{data.first_name}</span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                        <div class="chat-area flex-1 flex flex-col">
-
-                                            {sender?.data?.user ? (
-                                                <>
-                                                    <div class="flex-3">
-                                                        <h2 class="text-xl py-1 mb-8 border-b-2 border-gray-200">Chatting with <b>{sender?.data?.user?.first_name}</b></h2>
-                                                    </div>
-                                                    
-                                                    <div class="messages flex-1 overflow-auto">
-
-                                                    {(sendChat?.data?.populateMessage?.sender?._id === user._id) ? (
-                                                        <>
-                                                         <div class="message me mb-4 flex text-right">
-                                                            <div class="flex-1 px-2">
-                                                                <div class="inline-block bg-indigo-600 rounded-full p-2 px-6 text-white">
-                                                                    <span>{sendChat?.data?.populateMessage?.message}</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        </>
-                                                        ) : (
-                                                            <>
-                                                             <div class="message mb-4 flex">
+                                                <div class=" overflow-y-scroll bg-white border border-gray-100 rounded-lg h-96 " key={data._id} onClick={() => handleInboxClick(data._id)}>
+                                                    {data?.senderId._id === user._id ? (<>
+                                                        <div class="entry cursor-pointer transform hover:scale-105 duration-300 transition-transform bg-white border-2 mb-4 rounded p-4 flex shadow-md border-l-4 border-indigo-500">
                                                             <div class="flex-2">
                                                                 <div class="w-12 h-12 relative">
                                                                     <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-indigo-900 rounded-full ">
-                                                                        <span class="font-medium text-white ">sdfs</span>
+                                                                        <span class="font-medium text-white ">{data.receiverId.first_name.charAt(0).toUpperCase()}</span>
                                                                     </div>
 
                                                                 </div>
                                                             </div>
                                                             <div class="flex-1 px-2">
-                                                                <div class="inline-block bg-indigo-300 rounded-full p-2 px-6 text-gray-700">
-                                                                    <span>All travel expenses are covered by us of course :D</span>
-                                                                </div>
+                                                                <span class="font-medium ">{data.receiverId.first_name}</span>
+
+                                                                <div class="truncate w-32"><span class="text-gray-800">{data.lastMessage}</span></div>
                                                             </div>
                                                         </div>
-                                                            </>
-                                                        )}
-                                                       
+                                                    </>) : (<>
 
-                                                       
+
+                                                        <div class="entry cursor-pointer transform hover:scale-105 duration-300 transition-transform bg-white border-2 mb-4 rounded p-4 flex shadow-md border-l-4 border-indigo-500">
+                                                            <div class="flex-2">
+                                                                <div class="w-12 h-12 relative">
+                                                                    <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-indigo-900 rounded-full ">
+                                                                        <span class="font-medium text-white ">{data.senderId.first_name.charAt(0).toUpperCase()}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="flex-1 px-2">
+                                                                <span class="font-medium ">{data.senderId.first_name}</span>
+
+                                                                <div class="truncate w-32"><span class="text-gray-800">{data.lastMessage}</span></div>
+                                                            </div>
+                                                        </div>
+                                                    </>)}
+                                                </div>
+
+
+                                            ))}
+                                        </div>
+                                        <div class="chat-area flex-1 flex flex-col">
+                                            {inboxId ? (
+                                                <>
+                                                    <div class="flex-3">
+                                                        <h2 class="text-xl py-1 mb-8 border-b-2 border-gray-200">Chatting with <b>{name}</b></h2>
+                                                    </div>
+                                                    <div class=" w-full  overflow-y-scroll bg-white border border-gray-100 rounded-lg h-96">
+                                                        {getChat?.map((data) => (
+                                                            <>
+                                                                {(data?.sender?._id === user._id) ? (
+                                                                    <>
+                                                                        <div class="message me mb-4 flex text-right">
+                                                                            <div class="flex-1 px-2">
+                                                                                <div class="inline-block bg-indigo-600 rounded-full p-2 px-6 text-white">
+                                                                                    <span>{data.message}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </>
+                                                                ) : (
+                                                                    <>
+                                                                        <div class="message mb-4 flex">
+                                                                            <div class="flex-2">
+                                                                                <div class="w-12 h-12 relative">
+                                                                                    <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-indigo-900 rounded-full ">
+                                                                                        <span class="font-medium text-white ">{data?.sender?.first_name.charAt(0).toUpperCase()}</span>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="flex-1 px-2">
+                                                                                <div class="inline-block bg-indigo-300 rounded-full p-2 px-6 text-gray-700">
+                                                                                    <span>{data.message}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </>
+                                                                )}
+                                                            </>
+                                                        ))}
+
+
+
+
 
                                                     </div>
                                                 </>
@@ -164,7 +236,9 @@ function ChatChecker() {
                                                 </>
                                             )}
 
-                                            <div class="flex-2 pt-4 pb-10">
+
+
+                                            <div class="flex-2  ">
                                                 <div class="write bg-white shadow flex rounded-lg">
                                                     <div class="flex-3 flex content-center items-center text-center p-4 pr-0">
                                                         <span class="block text-center text-gray-400 hover:text-gray-800">
@@ -173,8 +247,8 @@ function ChatChecker() {
                                                     </div>
                                                     <div class="flex-1">
                                                         <textarea name="message"
-                                                           value={message}
-                                                           onChange={(e) => setMessage(e.target.value)} 
+                                                            value={message}
+                                                            onChange={(e) => setMessage(e.target.value)}
                                                             class="w-full block outline-none py-4 px-4 bg-transparent" rows="1" placeholder="Type a message..." autofocus></textarea>
                                                     </div>
                                                     <div class="flex-2 w-32 p-2 flex content-center items-center">
@@ -186,9 +260,9 @@ function ChatChecker() {
                                                             </span>
                                                         </div>
                                                         <div class="flex-1">
-                                                            <button 
-                                                            onClick={handleSubmitChat}
-                                                            class="bg-blue-400 w-10 h-10 rounded-full inline-block">
+                                                            <button
+                                                                onClick={handleSubmitChat}
+                                                                class="bg-blue-400 w-10 h-10 rounded-full inline-block">
                                                                 <span class="inline-block align-text-bottom">
                                                                     <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-4 h-4 text-white"><path d="M5 13l4 4L19 7"></path></svg>
                                                                 </span>

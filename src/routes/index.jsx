@@ -64,8 +64,9 @@ export const AllRoutes = [
     path: "/patient/profile",
     page: <Pages.PatientProfile />,
   },
+  
   {
-    path: "/patient/create/report",
-    page: <Pages.Model/>,
+    path: "/book/appointment",
+    page: <Pages.BookAppointment/>,
   },
 ];

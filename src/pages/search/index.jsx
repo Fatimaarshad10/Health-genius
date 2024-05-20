@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { searchDoctor } from "../../apis/doctor";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 function Search() {
     const [specialist, setSpecialist] = useState("");
@@ -86,7 +87,8 @@ function Search() {
                                     className=" rounded-md bg-indigo-900 px-5 py-3 text-xl font-semibold text-white shadow-sm hover:border-2 hover:bg-white hover:text-indigo-900
                hover:border-indigo-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-900 mr-4"
                                 >
-                                    Book an appointment
+                                      <Link to="/book/appointment"> Book an appointment</Link>
+                                    
                                 </button>
                             </div>
                         </div>
