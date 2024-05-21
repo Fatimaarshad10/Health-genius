@@ -1,17 +1,21 @@
 import React, { useState } from "react";
-import DatePicker from "react-datepicker";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router";
+import { useForm } from "react-hook-form";
+import { appointmentRegister } from "../../apis/appointment";
+
 function BookAppointment() {
-  const [startDate, setStartDate] = useState(new Date());
   const user = useSelector((state) => state?.auth?.detail);
-  console.log(user.availabilityTimes)
+  const { state } = useLocation();
+
+
   function getNextDateForDay(day) {
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const targetDayIndex = daysOfWeek.indexOf(day);
 
     if (targetDayIndex === -1) {
-        return null; // Invalid day name
+      return null; // Invalid day name
     }
 
     const today = new Date();
@@ -19,15 +23,39 @@ function BookAppointment() {
 
     let daysUntilNext = targetDayIndex - currentDayIndex;
     if (daysUntilNext <= 0) {
-        daysUntilNext += 7;
+      daysUntilNext += 7;
     }
 
     const nextDate = new Date();
     nextDate.setDate(today.getDate() + daysUntilNext);
 
     return nextDate;
-}
+  }
 
+
+  const patientId = user?._id
+  const doctorId = state?.doctor?._id
+
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [selectedDay, setSelectedDay] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { handleSubmit } = useForm({
+  });
+
+  const onSubmit = () => {
+    setLoading(true)
+    const appointmentData = {
+      appointment: "online",
+      day: selectedDay,
+      start_time: startTime,
+      end_time: endTime,
+      doctorDetails: doctorId,
+      patientDetails: patientId,
+    };
+    appointmentRegister(appointmentData, navigate, setLoading);
+  };
   return (
 
     <div className="flex flex-col items-center justify-center min-h-screen p-4 border">
@@ -50,11 +78,13 @@ function BookAppointment() {
       </div>
       <div className="flex mt-5">
         <div className="mr-2 w-full lg:w-48">
-          <select id="Specialist"
+          <select id="start_time"
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
             className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white">
             <option value="" disabled selected>Start Time</option>
 
-            {user.availabilityTimes.map((data) => (
+            {state.doctor.availabilityTimes.map((data) => (
               <option value={data.start_time} >{data.start_time}</option>
             ))}
 
@@ -63,10 +93,12 @@ function BookAppointment() {
         </div>
         <div>
           <div className="mr-2 w-full lg:w-48">
-            <select id="Specialist"
+            <select id="end_time"
+              value={endTime}
+              onChange={(e) => setEndTime(e.target.value)}
               className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white">
               <option value="" disabled selected>End Time</option>
-              {user.availabilityTimes.map((data) => (
+              {state.doctor.availabilityTimes.map((data) => (
                 <option value={data.end_time} >{data.end_time}</option>
               ))}
             </select>
@@ -76,31 +108,35 @@ function BookAppointment() {
       </div>
 
       <div className="mt-5 lg:ml-3 ml-20 ">
-    
-       <div className="mr-2 w-full lg:w-48">
-      <select id="day"
-        className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white">
-        <option value="" disabled selected>Select Day</option>
-        {user.availabilityTimes.map((data) => {
-          const nextDate = getNextDateForDay(data.day);
-          return (
-            nextDate && (
-              <option key={data.day} value={nextDate.toDateString()}>
-                {nextDate.toDateString()}
-              </option>
-            )
-          );
-        })}
-      </select>
-    </div>
-    <div className="flex justify-center">
-            <button
-              className="mt-5 rounded-md bg-indigo-900 px-4 py-2 text-md font-semibold text-white shadow-sm hover:border-2 hover:bg-white hover:text-indigo-900 hover:border-indigo-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-900"
-            >
-              <Link to="/book/appointment"> Book Video Consultation</Link>
-             
-            </button>
-          </div>
+
+        <div className="mr-2 w-full lg:w-48">
+          <select id="day"
+            value={selectedDay}
+            onChange={(e) => setSelectedDay(e.target.value)}
+            className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white">
+            <option value="" disabled selected>Select Day</option>
+            {state.doctor.availabilityTimes.map((data) => {
+              const nextDate = getNextDateForDay(data.day);
+              return (
+                nextDate && (
+                  <option key={data.day} value={nextDate.toDateString()}>
+                    {nextDate.toDateString()}
+                  </option>
+                )
+              );
+            })}
+          </select>
+        </div>
+        <div className="flex justify-center">
+          <button
+            onClick={handleSubmit(onSubmit)}
+            disabled={loading}
+            className="mt-5 rounded-md bg-indigo-900 px-4 py-2 text-md font-semibold text-white shadow-sm hover:border-2 hover:bg-white hover:text-indigo-900 hover:border-indigo-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-900"
+          >
+            {loading ? "loading..." : "Book Video Consultation"}
+
+          </button>
+        </div>
       </div>
     </div>
   )

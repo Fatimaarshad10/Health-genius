@@ -1,25 +1,30 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import {  useLocation } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const DoctorProfile = () => {
   const [startDate, setStartDate] = useState(new Date());
-  const user = useSelector((state) => state?.auth?.detail);
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  // Navigate to the appointment have a doctor data 
+  const handleAppointment = async () => {
+    navigate("/book/appointment", { state: { doctor: state.doctor } });
 
+  }
   return (
     <>
 
       <div className="flex lg:flex-col flex-col lg:gap-10 border rounded p-5 bg-indigo-100 ">
         <div className=" text-center">
           <>
-              <img className="rounded-full object-cover w-40 h-40 relative inline-flex items-center justify-center w-10 h-10 overflow-hidden rounded-full" src={user.image} alt="" />
+            <img className="rounded-full object-cover w-40 h-40 relative inline-flex items-center justify-center w-10 h-10 overflow-hidden rounded-full" src={state?.doctor?.image} alt="" />
           </>
         </div>
         <div className="mt-5 flex flex-col">
-          <h1 className='text-2xl font-bold text-indigo-900 text-center uppercase'>{user.first_name}</h1>
-          <p className="text-center">{user.specialist} {user.city}</p>
+          <h1 className='text-2xl font-bold text-indigo-900 text-center uppercase'>{state?.doctor?.first_name}</h1>
+          <p className="text-center">{state?.doctor?.specialist} {state?.doctor?.city}</p>
           <div className="flex flex-row text-center  justify-center">
             <button
               className=" md:bg-indigo-400 px-5 py-3 text-l font-semibold text-black 
@@ -61,10 +66,11 @@ const DoctorProfile = () => {
           </ul>
           <div className="flex justify-center">
             <button
+              onClick={() => handleAppointment()}
               className="mt-5 rounded-md bg-indigo-900 px-4 py-2 text-md font-semibold text-white shadow-sm hover:border-2 hover:bg-white hover:text-indigo-900 hover:border-indigo-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-900"
             >
-              <Link to="/book/appointment"> Book an appointment</Link>
-             
+              Book an appointment
+
             </button>
           </div>
         </div>

@@ -1,20 +1,17 @@
 import React, { useState } from "react"
 import { useLocation } from "react-router";
-import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router";
 import { searchDoctor } from "../../apis/doctor";
 
 function MainSearch() {
     const { state } = useLocation();
+    const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState(state.specialist);
     const [city, setCity] = useState(state.city);
     const [searchResults, setSearchResults] = useState(state.response);
-
-
-
+    // Search for doctor
     const handleSearch = async (e) => {
         e.preventDefault();
-
         try {
             const queryString = `?city=${city}&specialist=${searchQuery}`;
             const response = await searchDoctor(queryString);
@@ -24,6 +21,11 @@ function MainSearch() {
             alert(error.message);
         }
     };
+    // Post : Get the doctor details 
+    const handleDoctor = async (data) => {
+        navigate("/doctor/detail", { state: { doctor: data } });
+
+    }
 
     return (
         <>
@@ -114,7 +116,10 @@ function MainSearch() {
                                 </div>
                                 <div className="lg:w-30 mr-10 ml-10">
                                     <h2 className="text-indigo-900 font-bold text-3xl">
-                                        <Link to='/doctor/detail'>{data.first_name} {data.last_name}</Link></h2>
+                                        <button onClick={() => handleDoctor(data)}>{data.first_name} {data.last_name}</button>
+                                    </h2>
+
+                                    {/* <Link to='/doctor/detail'  { state: { data._id} }></Link></h2> */}
                                     <p className="font-bold">{data.specialist}</p>
                                     <p className="text-sm w-60">{data.medical_degree} {data.hospital_affiliation}</p>
                                     <div className="flex lg:flex-row gap-5 mt-10">
