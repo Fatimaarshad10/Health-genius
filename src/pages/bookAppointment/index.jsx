@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
-import { useNavigate } from "react-router";
+import {  useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { appointmentRegister } from "../../apis/appointment";
 
@@ -40,7 +39,6 @@ function BookAppointment() {
   const [endTime, setEndTime] = useState("");
   const [selectedDay, setSelectedDay] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const { handleSubmit } = useForm({
   });
 
@@ -54,8 +52,9 @@ function BookAppointment() {
       doctorDetails: doctorId,
       patientDetails: patientId,
     };
-    appointmentRegister(appointmentData, navigate, setLoading);
+    appointmentRegister(appointmentData,  setLoading);
   };
+ 
   return (
 
     <div className="flex flex-col items-center justify-center min-h-screen p-4 border">
@@ -130,6 +129,7 @@ function BookAppointment() {
         <div className="flex justify-center">
           <button
             onClick={handleSubmit(onSubmit)}
+            // onClick={initiatePayment}
             disabled={loading}
             className="mt-5 rounded-md bg-indigo-900 px-4 py-2 text-md font-semibold text-white shadow-sm hover:border-2 hover:bg-white hover:text-indigo-900 hover:border-indigo-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-900"
           >
