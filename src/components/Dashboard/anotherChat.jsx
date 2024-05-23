@@ -52,6 +52,7 @@ function ChatChecker() {
                     }
                 });
                 setInboxData(response.data.data.inbox)
+                console.log(response.data.data.inbox)
             } catch (error) {
                 setError(error.response.data.message);
             }
@@ -190,7 +191,7 @@ function ChatChecker() {
                                                                     <>
                                                                         <div class="message me mb-4 flex text-right">
                                                                             <div class="flex-1 px-2">
-                                                                                <div class="inline-block bg-indigo-600 rounded-full p-2 px-6 text-white">
+                                                                                <div class="inline-block bg-indigo-600  p-2 px-6 text-white">
                                                                                     <span>{data.message}</span>
                                                                                 </div>
                                                                             </div>
@@ -208,7 +209,7 @@ function ChatChecker() {
                                                                                 </div>
                                                                             </div>
                                                                             <div class="flex-1 px-2">
-                                                                                <div class="inline-block bg-indigo-300 rounded-full p-2 px-6 text-gray-700">
+                                                                                <div class="inline-block bg-indigo-300 p-2 px-6 text-gray-700">
                                                                                     <span>{data.message}</span>
                                                                                 </div>
                                                                             </div>

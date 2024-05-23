@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutAsync } from "../../store/reducers/auth.reducer";
+import { apiEndpoint } from "../../config/environment";
 
 
 const navigation = [
@@ -23,6 +24,21 @@ function Navbar() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const user = useSelector((state) => state?.auth?.user);
   const detail = useSelector((state) => state?.auth?.detail);
+  const token = useSelector((state) => state?.auth?.token);
+  const fetchInboxData = async () => {
+    try {
+        const response = await axios.get(`${apiEndpoint}notification/`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        console.log(response)
+    } catch (error) {
+        console.log(error.response);
+    }
+};
+fetchInboxData();
+
 
   const handleMenuToggle = (e) => {
     e.stopPropagation();
