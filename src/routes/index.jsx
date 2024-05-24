@@ -69,4 +69,8 @@ export const AllRoutes = [
     path: "/book/appointment",
     page: <Pages.BookAppointment/>,
   },
+  {
+    path: "/meeting/:room",
+    page: <Pages.Meeting/>,
+  },
 ];

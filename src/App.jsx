@@ -10,6 +10,7 @@ import './index.css';
 import store from "./store";
 import "react-toastify/dist/ReactToastify.css";
 import {socketEndpoint} from './config/environment'
+import { PeerProvider } from './pages/provider/peer';
 function AppContent() {
   const location = useLocation();
   const user = useSelector((state) => state?.auth?.user);
@@ -60,7 +61,10 @@ function AppContent() {
 function App() {
   return (
     <Provider store={store}>
+      <PeerProvider>
       <AppContent />
+      </PeerProvider>
+
     </Provider>
   );
 }

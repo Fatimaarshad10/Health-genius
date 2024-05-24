@@ -2,42 +2,69 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutAsync } from "../../store/reducers/auth.reducer";
-import { apiEndpoint } from "../../config/environment";
-
+import { apiEndpoint , socketEndpoint } from "../../config/environment";
+import { toast } from "react-toastify";
+import NotificationToast from "../notification";
+import axios from "axios";
+import io from "socket.io-client";
 
 const navigation = [
   { name: 'Home', href: '/' },
   { name: 'About', href: '/about' },
   { name: 'Services', href: '/services' },
 ]
-const notifications = [
-  { id: 1, text: "You have a new message!", isNew: true },
-  { id: 2, text: "Your order has been shipped.", isNew: false },
-  { id: 3, text: "You have a meeting at 3 PM.", isNew: true },
-];
+
 
 
 function Navbar() {
   const dispatch = useDispatch()
-
+  const [unreadCount, setUnreadCount] = useState(0);
   const [isNotificationDialogOpen, setIsNotificationDialogOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [notification, setNotification] = useState(null);
+
   const user = useSelector((state) => state?.auth?.user);
   const detail = useSelector((state) => state?.auth?.detail);
   const token = useSelector((state) => state?.auth?.token);
-  const fetchInboxData = async () => {
-    try {
-        const response = await axios.get(`${apiEndpoint}notification/`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+  useEffect(() => {
+    const socket = io(`${socketEndpoint}`);
+    socket.on("connect", () => {
+        socket.emit("addUser", { userId: user._id });
+    });
+
+    socket.on("notification", (notification) => {
+     toast.success(<NotificationToast title='Appointment' message={notification.message} />)
+      setNotification((prevChat) => {
+            prevChat = prevChat || [];
+            return [...prevChat, notification];
+
         });
-        console.log(response)
-    } catch (error) {
+        setUnreadCount((prevCount) => prevCount + 1);
+    });
+    return () => {
+        socket.disconnect();
+    };
+
+}, [ notification, unreadCount]);
+
+
+  useEffect(() => {
+    const fetchInboxData = async () => {
+      try {
+        const response = await axios.get(`${apiEndpoint}notification`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        setNotification(response?.data?.data?.notification);
+        setUnreadCount(response?.data?.data?.notification?.filter(n => n.unread === true).length);
+      } catch (error) {
         console.log(error.response);
-    }
-};
-fetchInboxData();
+      }
+    };
+    fetchInboxData();
+    
+  }, [token , unreadCount]);
 
 
   const handleMenuToggle = (e) => {
@@ -64,6 +91,14 @@ fetchInboxData();
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
+  const handleUnread = async(id)=>{
+    try {
+      await axios.patch(`${apiEndpoint}notification/${id}`, { unread: false });
+      setUnreadCount((prevCount) => prevCount - 1);
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
   return (
     <div>
       <nav>
@@ -120,14 +155,17 @@ fetchInboxData();
                         <svg className="w-6 h-6 hover:text-indigo-400 text-indigo-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 21">
                           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 3.464V1.1m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175C15 15.4 15 16 14.462 16H1.538C1 16 1 15.4 1 14.807c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 8 3.464ZM4.54 16a3.48 3.48 0 0 0 6.92 0H4.54Z" />
                         </svg>
+                        {unreadCount > 0 && (
+                          <span className="absolute top-0 right-0 inline-block w-4 h-4 bg-red-600 rounded-full text-white text-xs text-center">{unreadCount}</span>
+                        )}
                       </button>
                       <div className={`${isNotificationDialogOpen ? 'block' : 'hidden'} absolute right-0 z-10 bg-white shadow-lg mt-2 p-4 rounded-lg w-64`}>
                         <h3 className="text-lg font-semibold text-gray-800 mb-2">Notifications</h3>
                         <div className="border-b border-gray-200 mb-2"></div>
-                        {notifications.map(notification => (
-                          <div key={notification.id} className={`p-2 rounded ${notification.isNew ? 'bg-blue-100' : ''}`}>
-                            <p className="text-gray-700 text-sm">
-                              {notification.isNew && <span className=" px-2 py-1 text-xs text-white bg-red-500 rounded-full">New</span>} {notification.text}</p>
+                        {notification?.map(notification => (
+                          <div key={notification._id} className={`p-2 rounded ${notification.unread === true ? 'bg-blue-100' : ''}`}>
+                            <p className="text-gray-700 text-sm" onClick={()=>handleUnread(notification._id)}>
+                              {notification.unread === true && <span className=" px-2 py-1 text-xs text-white bg-red-500 rounded-full">New</span>} {notification.message}</p>
 
                           </div>
                         ))}
@@ -143,6 +181,7 @@ fetchInboxData();
                       <svg class="w-6 h-6 hover:text-indigo-400 text-indigo-900 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                         <path d="M18 0H2a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3.546l3.2 3.659a1 1 0 0 0 1.506 0L13.454 14H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-8 10H5a1 1 0 0 1 0-2h5a1 1 0 1 1 0 2Zm5-4H5a1 1 0 0 1 0-2h10a1 1 0 1 1 0 2Z" />
                       </svg>
+                     
                     </Link>
                   </li>
 

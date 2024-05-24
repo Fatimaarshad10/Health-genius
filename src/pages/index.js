@@ -13,6 +13,8 @@ import DoctorProfile from './doctor-details'
 import PatientProfile from "./patientProfile";
 import Model from "./createReport";
 import BookAppointment from "./bookAppointment";
+import Meeting from "./meeting";
+
 const Pages = {
   Home,
   Navbar,
@@ -27,6 +29,7 @@ const Pages = {
   DoctorProfile,
   PatientProfile,
   Model,
-  BookAppointment
+  BookAppointment,
+  Meeting
 };
 export default Pages;

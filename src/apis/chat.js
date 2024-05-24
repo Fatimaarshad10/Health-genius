@@ -6,7 +6,6 @@ export async function chat(payload) {
   let result;
   try {
     result = await postRequest("chat", payload);
-    toast.success(result.message);
   } catch (error) {
     toast.error(error?.response?.data?.message);
   }

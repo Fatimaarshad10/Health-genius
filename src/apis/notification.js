@@ -2,7 +2,7 @@ import {  getRequest } from "../config/axiosConfig";
 
 
 //get client
-export async function getNotif(id) {
-  const result = await getRequest(`notification/${id}`);
+export async function getNotif() {
+  const result = await getRequest(`notification`)
   return result;
 }

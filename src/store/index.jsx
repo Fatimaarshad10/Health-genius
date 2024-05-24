@@ -1,5 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import AuthSlice from "./slices/auth.slice";
+import CountSlice from "./slices/count.auth";
+
 import { setupListeners } from "@reduxjs/toolkit/query";
 
 const loadState = () => {
@@ -18,8 +20,7 @@ const peristedState = loadState();
 
 const combinedReducers = combineReducers({
     auth: AuthSlice,
-
-    // [userServerApi.reducerPath]: userServerApi.reducer,
+    count : CountSlice
 
 });
 

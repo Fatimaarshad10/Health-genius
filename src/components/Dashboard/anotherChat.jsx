@@ -6,10 +6,11 @@ import io from "socket.io-client";
 import { apiEndpoint, socketEndpoint } from "../../config/environment";
 import axios from "axios";
 import { allInbox } from "../../apis/inbox";
+
+
 function ChatChecker() {
     const user = useSelector((state) => state?.auth?.user);
     const token = useSelector((state) => state?.auth?.token);
-
     const detail = useSelector((state) => state?.auth?.detail);
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState(null);
@@ -21,8 +22,6 @@ function ChatChecker() {
     const [inboxId, setInboxId] = useState("");
     const [receiver, setReceiver] = useState("");
     const [name, setName] = useState("");
-
-
     useEffect(() => {
         const socket = io(`${socketEndpoint}`);
         socket.on("connect", () => {
@@ -32,7 +31,6 @@ function ChatChecker() {
         socket.on("messageReceived", (savedMessage) => {
             setGetChat((prevChat) => {
                 prevChat = prevChat || [];
-                console.log(prevChat)
                 return [...prevChat, savedMessage];
 
             });
@@ -52,7 +50,8 @@ function ChatChecker() {
                     }
                 });
                 setInboxData(response.data.data.inbox)
-                console.log(response.data.data.inbox)
+                
+             
             } catch (error) {
                 setError(error.response.data.message);
             }
