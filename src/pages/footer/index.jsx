@@ -3,7 +3,7 @@ function Footer() {
         <>
 
 
-            <footer class="w-full h-auto p-4 text-center bg-gray-400 border border-gray-200 shadow sm:p-8 dark:bg-gray-600 dark:border-gray-500 mt-16">
+            <footer class="w-full h-auto p-4 text-center bg-indigo-200 border  shadow sm:p-8 mt-16">
 
                 <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
                     <div class="md:flex md:justify-between">

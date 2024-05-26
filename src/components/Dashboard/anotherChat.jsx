@@ -50,8 +50,8 @@ function ChatChecker() {
                     }
                 });
                 setInboxData(response.data.data.inbox)
-                
-             
+
+
             } catch (error) {
                 setError(error.response.data.message);
             }
@@ -60,6 +60,11 @@ function ChatChecker() {
         fetchInboxData();
     }, [token, sendChat]);
 
+    // Function to check if a string is a URL
+    const isURL = (str) => {
+        const pattern = /^(http|https):\/\/[^ "]+$/;
+        return pattern.test(str);
+    };
 
 
     const handleSearch = async (e) => {
@@ -190,8 +195,15 @@ function ChatChecker() {
                                                                     <>
                                                                         <div class="message me mb-4 flex text-right">
                                                                             <div class="flex-1 px-2">
-                                                                                <div class="inline-block bg-indigo-600  p-2 px-6 text-white">
-                                                                                    <span>{data.message}</span>
+
+                                                                                <div class="inline-block bg-indigo-500  p-2 px-6 text-white  max-w-30 break-all ">
+                                                                                    {isURL(data.message) ? (
+                                                                                        <a href={data.message} rel="noopener noreferrer" className=" hover:text-black" >
+                                                                                            {data.message}
+                                                                                        </a>
+                                                                                    ) : (
+                                                                                        <span>{data.message}</span>
+                                                                                    )}
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -208,8 +220,15 @@ function ChatChecker() {
                                                                                 </div>
                                                                             </div>
                                                                             <div class="flex-1 px-2">
-                                                                                <div class="inline-block bg-indigo-300 p-2 px-6 text-gray-700">
-                                                                                    <span>{data.message}</span>
+                                                                                <div class="inline-block bg-indigo-300 p-2 px-6 text-white   max-w-30 break-all ">
+
+                                                                                    {isURL(data.message) ? (
+                                                                                        <a href={data.message} rel="noopener noreferrer" className=" hover:text-black">
+                                                                                            {data.message}
+                                                                                        </a>
+                                                                                    ) : (
+                                                                                        <span>{data.message}</span>
+                                                                                    )}
                                                                                 </div>
                                                                             </div>
                                                                         </div>
