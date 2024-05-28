@@ -40,10 +40,10 @@ function Meeting() {
     }, [createOffer, socket]);
 
     const handleIncomingCall = useCallback(async (data) => {
-        const { from, offer } = data;
-        console.log('Incoming call from', from, offer);
+        const { emailId, offer } = data;
+        console.log('Incoming call from', emailId, offer);
         const ans = await createAnwers(offer);
-        socket.emit('call-accepted', { emailId: from, ans });
+        socket.emit('call-accepted', { emailId: emailId, ans });
         setRemoteEmailId(from);
     }, [createAnwers]);
 
@@ -67,12 +67,9 @@ function Meeting() {
     }, [getUserMediaStream]);
 
     useEffect(() => {
-        const socket = io(`${socketEndpoint}`,
-        { transports: ['websocket'] }
-        );
         socket.on("connect", () => {
             socket.emit("join-room", {
-                emailId: user.email,
+                emailId: user?.email,
                 roomId: room
             });
         });
@@ -85,7 +82,7 @@ function Meeting() {
             socket.off('user-joined', handleUserJoined);
             socket.off('incoming-call', handleIncomingCall);
             socket.off("call-accepted", handleCallAccepted);
-            // socket.disconnect();
+            socket.disconnect();
         };
     }, [socket, user, room, handleUserJoined, handleIncomingCall, handleCallAccepted]);
 
