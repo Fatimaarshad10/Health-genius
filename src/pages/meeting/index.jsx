@@ -203,7 +203,6 @@ function Meeting() {
         }
     }, [isTokenExpired, myStream, peer, room, socket, navigate]);
 
-console.log(remoteStream)
     return (
         <>
             {isTokenExpired ? (
