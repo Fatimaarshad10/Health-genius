@@ -10,7 +10,6 @@ import { jwtDecode } from 'jwt-decode';
 
 function Meeting() {
     const { room } = useParams();
-    console.log(room)
     const decodedToken = jwtDecode(room);
     const { exp } = decodedToken;
     const [isTokenExpired, setIsTokenExpired] = useState(false);
@@ -31,8 +30,8 @@ function Meeting() {
     }, [exp]);
 
     const { createOffer, createAnwers, setRemoteAns, sendStream, remoteStream, peer } = usePeer();
-    const socket = io(`${socketEndpoint}`);
-
+    const socketRef = useRef(io(`https://health-genius.onrender.com`));
+    const socket = socketRef.current;
     const handleUserJoined = useCallback(async (data) => {
         const { emailId } = data;
         console.log("New user joined room", emailId);
@@ -69,6 +68,7 @@ function Meeting() {
     }, [getUserMediaStream]);
 
     useEffect(() => {
+        
         socket.on("connect", () => {
             socket.emit("join-room", {
                 emailId: user.email,
@@ -84,7 +84,7 @@ function Meeting() {
             socket.off('user-joined', handleUserJoined);
             socket.off('incoming-call', handleIncomingCall);
             socket.off("call-accepted", handleCallAccepted);
-            socket.disconnect();
+            // socket.disconnect();
         };
     }, [socket, user, room, handleUserJoined, handleIncomingCall, handleCallAccepted]);
 

@@ -54,12 +54,6 @@ export const PeerProvider = (props) => {
         };
     }, [peer, handleTrackEvent]);
 
-    // useEffect(() => {
-    //     return () => {
-    //         peer.close();
-    //     };
-    // }, [peer]);
-
     return (
         <PeerContext.Provider value={{ peer, createOffer, createAnwers, setRemoteAns, sendStream, remoteStream }}>
             {props.children}
