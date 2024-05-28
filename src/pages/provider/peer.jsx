@@ -31,24 +31,18 @@ export const PeerProvider = (props) => {
     };
 
     const setRemoteAns = async (ans) => {
-        console.log(ans);
         await peer.setRemoteDescription(ans);
     };
 
     const sendStream = async (stream) => {
         const tracks = stream.getTracks();
         for (const track of tracks) {
-            const senders = peer.getSenders();
-            const senderExists = senders.some(sender => sender.track === track);
-            if (!senderExists) {
-                peer.addTrack(track, stream);
-            }
+            peer.addTrack(track, stream);
         }
     };
 
     const handleTrackEvent = useCallback((ev) => {
         const streams = ev.streams;
-        console.log(streams[0])
         setRemoteStream(streams[0]);
     }, []);
 

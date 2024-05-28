@@ -10,27 +10,23 @@ import { jwtDecode } from 'jwt-decode';
 
 function Meeting() {
     const { room } = useParams();
-    const decodedToken = jwtDecode(room);
-    const { exp } = decodedToken;
-    const [isTokenExpired, setIsTokenExpired] = useState(false);
+    // const decodedToken = jwtDecode(room);
+    // const { exp } = decodedToken;
+    // const [isTokenExpired, setIsTokenExpired] = useState(false);
+    // const [isVideoEnabled, setIsVideoEnabled] = useState(true);
+    // const [isAudioEnabled, setIsAudioEnabled] = useState(true);
+    // const [isScreenSharing, setIsScreenSharing] = useState(false);
+    // const [isStreaming, setIsStreaming] = useState(false);
+    // const videoContainerRef = useRef(null);
+    // const navigate = useNavigate();
     const user = useSelector((state) => state?.auth?.user);
     const [myStream, setMyStream] = useState(null);
     const [remoteEmailId, setRemoteEmailId] = useState('');
-    const [isVideoEnabled, setIsVideoEnabled] = useState(true);
-    const [isAudioEnabled, setIsAudioEnabled] = useState(true);
-    const [isScreenSharing, setIsScreenSharing] = useState(false);
-    const [isStreaming, setIsStreaming] = useState(false);
-    const videoContainerRef = useRef(null);
-    const navigate = useNavigate();
-    useEffect(() => {
-        const currentTime = Math.floor(Date.now() / 1000); // Get current time in seconds
-        if (exp && currentTime > exp) {
-            setIsTokenExpired(true);
-        }
-    }, [exp]);
 
+ 
     const { createOffer, createAnwers, setRemoteAns, sendStream, remoteStream, peer } = usePeer();
     const socket = io(`${socketEndpoint}`);
+
 
     const handleUserJoined = useCallback(async (data) => {
         const { emailId } = data;
@@ -52,30 +48,28 @@ function Meeting() {
         const { ans } = data;
         console.log("Call Got accepted", ans);
         await setRemoteAns(ans);
-    }, [setRemoteAns , socket]);
+    }, [setRemoteAns]);
 
     const getUserMediaStream = useCallback(async () => {
         const stream = await navigator.mediaDevices.getUserMedia({
             audio: true,
             video: true
         });
-        setMyStream(stream);
         sendStream(stream);
-    }, [sendStream , socket]);
+        setMyStream(stream);
+    }, []);
 
     useEffect(() => {
         getUserMediaStream();
     }, [getUserMediaStream]);
 
     useEffect(() => {
-
         socket.on("connect", () => {
             socket.emit("join-room", {
                 emailId: user.email,
                 roomId: room
             });
         });
-
         socket.on("user-joined", handleUserJoined);
         socket.on("incoming-call", handleIncomingCall);
         socket.on("call-accepted", handleCallAccepted);
@@ -86,153 +80,52 @@ function Meeting() {
             socket.off("call-accepted", handleCallAccepted);
             socket.disconnect();
         };
-    }, []);
+    }, [socket , handleCallAccepted , handleIncomingCall, handleUserJoined]);
 
     const handleNegotiation = useCallback(async () => {
-        try {
-            await peer.setLocalDescription(await peer.createOffer());
             const localOffer = peer.localDescription;
             socket.emit('call-user', {
                 emailId: remoteEmailId,
                 offer: localOffer
             });
-        } catch (error) {
-            console.error('Error creating or setting local description:', error);
-        }
-    }, [peer, remoteEmailId, socket]);
+        
+    }, [remoteEmailId , socket , peer.localDescription]);
 
     useEffect(() => {
         peer.addEventListener('negotiationneeded', handleNegotiation);
         return () => {
             peer.removeEventListener('negotiationneeded', handleNegotiation);
         };
-    }, [handleNegotiation]);
+    }, []);
 
-    const toggleVideo = () => {
-        if (myStream) {
-            const videoTracks = myStream.getVideoTracks();
-            videoTracks.forEach(track => track.enabled = !track.enabled);
-            setIsVideoEnabled(videoTracks[0].enabled);
-        }
-    };
 
-    const toggleAudio = () => {
-        if (myStream) {
-            const audioTracks = myStream.getAudioTracks();
-            audioTracks.forEach(track => track.enabled = !track.enabled);
-            setIsAudioEnabled(audioTracks[0].enabled);
-        }
-    };
-
-    const toggleScreenShare = async () => {
-        if (isScreenSharing) {
-            console.log("Stopping screen sharing...");
-            getUserMediaStream();
-            setIsScreenSharing(false);
-        } else {
-            console.log("Starting screen sharing...");
-            try {
-                const screenStream = await navigator.mediaDevices.getDisplayMedia({
-                    video: true
-                });
-                console.log("Screen stream obtained:", screenStream);
-                setMyStream(screenStream);
-                sendStream(screenStream);
-                setIsScreenSharing(true);
-
-                // Stop screen sharing when the stream ends
-                screenStream.getTracks().forEach(track => {
-                    track.onended = () => {
-                        console.log("Screen sharing ended.");
-                        getUserMediaStream();
-                        setIsScreenSharing(false);
-                    };
-                });
-            } catch (error) {
-                console.error("Error starting screen sharing:", error);
-            }
-        }
-    };
-
-    const toggleStreaming = () => {
-        if (myStream) {
-            sendStream(myStream);
-            setIsStreaming(!isStreaming);
-        } else {
-            console.warn('myStream is not available');
-        }
-    };
-
-    const toggleFullScreen = () => {
-        if (videoContainerRef.current) {
-            if (!document.fullscreenElement) {
-                videoContainerRef.current.requestFullscreen().catch(err => {
-                    console.error(`Error attempting to enable full-screen mode: ${err.message}`);
-                });
-            } else {
-                document.exitFullscreen().catch(err => {
-                    console.error(`Error attempting to exit full-screen mode: ${err.message}`);
-                });
-            }
-        }
-    };
-
-    const handleChat = () => {
-        if (myStream) {
-            myStream.getTracks().forEach(track => track.stop());
-        }
-        socket.emit("leave-meeting", { emailId: user.email, roomId: room });
-        peer.close();
-        
-        navigate('/chats');
-
-    };
-    useEffect(() => {
-        if (isTokenExpired) {
-            if (myStream) {
-                myStream.getTracks().forEach(track => track.stop());
-            }
-            socket.emit("leave-meeting", { emailId: user.email, roomId: room });
-        peer.close();
-        if (user.role === 'patient') {
-            navigate('/review');
-        } else {
-            navigate('/');
-        }
-
-        }
-    }, [isTokenExpired, myStream, peer, room, socket, navigate]);
 
     return (
         <>
-            {isTokenExpired ? (
+            {/* {isTokenExpired ? (
                 <>
                     <div className="flex justify-center items-center h-screen">
                         <p className="text-red-500 text-xl font-bold">Meeting link expired</p>
                     </div>
 
                 </>
-            ) : (
+            ) : ( */}
                 <>
-                    <div className="flex flex-col h-screen">
-                        {/* Video Display Area */}
-                        <div className="flex-1 relative" ref={videoContainerRef}>
-                            <div className="absolute inset-0 flex items-center justify-center bg-black">
-                                {/* Video Player */}
-                                {myStream && <ReactPlayer url={myStream} playing />}
+                  
+                        {myStream && <ReactPlayer url={myStream} playing muted/>}
                                 {remoteStream && <ReactPlayer url={remoteStream} playing />}
-                            </div>
-                        </div>
-                        {/* Control Buttons */}
-                        <div className="bg-black flex items-center justify-center py-4">
-                            <button
+                            <button onClick={(e)=> sendStream(myStream)}>Sned my video</button>
+                        {/* <button
                                 onClick={toggleStreaming}
                                 className="mx-2 px-4 py-2 ">
                                 <svg className={`w-6 h-6 ${isStreaming ? 'text-white' : 'text-gray-800'}`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                                     <path d="M17 0h-5.768a1 1 0 1 0 0 2h3.354L8.4 8.182A1.003 1.003 0 1 0 9.818 9.6L16 3.414v3.354a1 1 0 0 0 2 0V1a1 1 0 0 0-1-1Z" />
                                     <path d="m14.258 7.985-3.025 3.025A3 3 0 1 1 6.99 6.768l3.026-3.026A3.01 3.01 0 0 1 8.411 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V9.589a3.011 3.011 0 0 1-1.742-1.604Z" />
                                 </svg>
-                            </button>
+                            </button> */}
+                        {/* Control Buttons */}
+                        {/* <div className="bg-black flex items-center justify-center py-4">
+                           
                             <button
                                 onClick={toggleVideo}
                                 className="mx-2 px-4 py-2 ">
@@ -267,10 +160,9 @@ function Meeting() {
                                 className="mx-2 px-4 py-2  text-black rounded bg-white">
                                 Disconnect
                             </button>
-                        </div>
-                    </div>
+                        </div> */}
                 </>
-            )}
+            {/* )} */}
         </>
     );
 }
