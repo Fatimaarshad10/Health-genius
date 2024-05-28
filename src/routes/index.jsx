@@ -73,4 +73,8 @@ export const AllRoutes = [
     path: "/meeting/:room",
     page: <Pages.Meeting/>,
   },
+  {
+    path: "/review",
+    page: <Pages.Review/>,
+  },
 ];
