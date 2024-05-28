@@ -18,8 +18,8 @@ export async function appointmentRegister(payload, setLoading) {
 }
 
 //get client
-export async function getAppointment() {
-  const result = await getRequest(`appointment`);
+export async function getAppointment(query) {
+  const result = await getRequest(`appointment${query}`);
   return result;
 }
 

@@ -74,7 +74,7 @@ export const AllRoutes = [
     page: <Pages.Meeting/>,
   },
   {
-    path: "/review",
+    path: "/review/:token",
     page: <Pages.Review/>,
   },
 ];

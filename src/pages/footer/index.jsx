@@ -1,8 +1,6 @@
 function Footer() {
     return (
         <>
-
-
             <footer class="w-full h-auto p-4 text-center bg-indigo-200 border  shadow sm:p-8 mt-16">
 
                 <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
