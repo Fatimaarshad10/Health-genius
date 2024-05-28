@@ -4,164 +4,140 @@ import { useSelector } from "react-redux";
 import io from "socket.io-client";
 import { socketEndpoint } from "../../config/environment";
 import { usePeer } from '../provider/peer';
-import ReactPlayer from 'react-player';
-import { useNavigate } from "react-router";
-import { jwtDecode } from 'jwt-decode';
 
 function Meeting() {
     const { room } = useParams();
-    // const decodedToken = jwtDecode(room);
-    // const { exp } = decodedToken;
-    const [isTokenExpired, setIsTokenExpired] = useState(false);
     const user = useSelector((state) => state?.auth?.user);
     const [myStream, setMyStream] = useState(null);
+    const [remoteStream, setRemoteStream] = useState(null);
     const [remoteEmailId, setRemoteEmailId] = useState('');
-    const [isVideoEnabled, setIsVideoEnabled] = useState(true);
-    const [isAudioEnabled, setIsAudioEnabled] = useState(true);
-    const [isScreenSharing, setIsScreenSharing] = useState(false);
-    const [isStreaming, setIsStreaming] = useState(false);
-    // const videoContainerRef = useRef(null);
-    const navigate = useNavigate();
- 
-    const { createOffer, createAnwers, setRemoteAns, sendStream, remoteStream, peer } = usePeer();
-    const socket = io(`${socketEndpoint}`);
+    const myVideoRef = useRef(null);
+    const remoteVideoRef = useRef(null);
 
+    const { createOffer, createAnwers, setRemoteAns, sendStream, peer } = usePeer();
+    const socket = useRef(null); // Use useRef to prevent re-initialization
 
     const handleUserJoined = useCallback(async (data) => {
         const { emailId } = data;
         console.log("New user joined room", emailId);
         const offer = await createOffer();
-        socket.emit('call-user', { emailId, offer });
+        socket.current.emit('call-user', { emailId, offer });
         setRemoteEmailId(emailId);
-    }, [createOffer, socket]);
+    }, [createOffer]);
 
     const handleIncomingCall = useCallback(async (data) => {
         const { from, offer } = data;
         console.log('Incoming call from', from, offer);
         const ans = await createAnwers(offer);
-        socket.emit('call-accepted', { emailId: from, ans });
+        socket.current.emit('call-accepted', { emailId: from, ans });
         setRemoteEmailId(from);
-    }, [createAnwers, socket]);
+    }, [createAnwers]);
 
     const handleCallAccepted = useCallback(async (data) => {
         const { ans } = data;
         console.log("Call Got accepted", ans);
-        await setRemoteAns(ans);
-    }, [setRemoteAns]);
+        if (peer.signalingState === "stable" || peer.signalingState === "have-local-offer") {
+            await setRemoteAns(ans);
+        } else {
+            console.warn(`Cannot set remote answer SDP in signaling state: ${peer.signalingState}`);
+        }
+    }, [setRemoteAns, peer.signalingState]);
 
     const getUserMediaStream = useCallback(async () => {
-        const stream = await navigator.mediaDevices.getUserMedia({
-            audio: true,
-            video: true
-        });
-        sendStream(stream);
-        setMyStream(stream);
-    }, []);
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+                audio: true,
+                video: true
+            });
+            sendStream(stream);
+            setMyStream(stream);
+            console.log("My stream:", stream);
+        } catch (error) {
+            console.error("Error accessing media devices.", error);
+        }
+    }, [sendStream]);
 
     useEffect(() => {
         getUserMediaStream();
     }, [getUserMediaStream]);
 
     useEffect(() => {
-        socket.on("connect", () => {
-            socket.emit("join-room", {
+        socket.current = io(socketEndpoint);
+
+        socket.current.on("connect", () => {
+            console.log("Socket connected");
+            socket.current.emit("join-room", {
                 emailId: user.email,
                 roomId: room
             });
         });
-        socket.on("user-joined", handleUserJoined);
-        socket.on("incoming-call", handleIncomingCall);
-        socket.on("call-accepted", handleCallAccepted);
+        socket.current.on("user-joined", handleUserJoined);
+        socket.current.on("incoming-call", handleIncomingCall);
+        socket.current.on("call-accepted", handleCallAccepted);
 
         return () => {
-            // socket.off('user-joined', handleUserJoined);
-            // socket.off('incoming-call', handleIncomingCall);
-            // socket.off("call-accepted", handleCallAccepted);
-            socket.disconnect();
+            socket.current.off('user-joined', handleUserJoined);
+            socket.current.off('incoming-call', handleIncomingCall);
+            socket.current.off("call-accepted", handleCallAccepted);
+            socket.current.disconnect();
         };
-    }, []);
+    }, [handleCallAccepted, handleIncomingCall, handleUserJoined, room, user.email]);
 
     const handleNegotiation = useCallback(async () => {
-            const localOffer = peer.createOffer();
-            socket.emit('call-user', {
-                emailId: remoteEmailId,
-                offer: localOffer
-            });
-        
-    }, []);
+        const localOffer = peer.localDescription;
+        socket.current.emit('call-user', {
+            emailId: remoteEmailId,
+            offer: localOffer
+        });
+    }, [remoteEmailId, peer.localDescription]);
 
     useEffect(() => {
         peer.addEventListener('negotiationneeded', handleNegotiation);
+        peer.addEventListener('track', (event) => {
+            const [stream] = event.streams;
+            setRemoteStream(stream);
+            console.log("Remote stream:", stream);
+        });
         return () => {
             peer.removeEventListener('negotiationneeded', handleNegotiation);
+            peer.removeEventListener('track', (event) => {
+                const [stream] = event.streams;
+                setRemoteStream(stream);
+                console.log("Remote stream:", stream);
+            });
         };
-    }, []);
+    }, [peer, handleNegotiation]);
 
+    useEffect(() => {
+        if (myVideoRef.current) {
+            myVideoRef.current.srcObject = myStream;
+        }
+    }, [myStream]);
 
+    useEffect(() => {
+        if (remoteVideoRef.current) {
+            remoteVideoRef.current.srcObject = remoteStream;
+        }
+    }, [remoteStream]);
 
     return (
         <>
-            {/* {isTokenExpired ? (
-                <>
-                    <div className="flex justify-center items-center h-screen">
-                        <p className="text-red-500 text-xl font-bold">Meeting link expired</p>
-                    </div>
-
-                </>
-            ) : ( */}
-                <>
-                  
-                        {myStream && <ReactPlayer url={myStream} playing muted/>}
-                                {remoteStream && <ReactPlayer url={remoteStream} playing />}
-                            <button onClick={(e)=> sendStream(myStream)}>Sned my video</button>
-                        {/* <button
-                                onClick={toggleStreaming}
-                                className="mx-2 px-4 py-2 ">
-                                <svg className={`w-6 h-6 ${isStreaming ? 'text-white' : 'text-gray-800'}`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
-                                    <path d="M17 0h-5.768a1 1 0 1 0 0 2h3.354L8.4 8.182A1.003 1.003 0 1 0 9.818 9.6L16 3.414v3.354a1 1 0 0 0 2 0V1a1 1 0 0 0-1-1Z" />
-                                    <path d="m14.258 7.985-3.025 3.025A3 3 0 1 1 6.99 6.768l3.026-3.026A3.01 3.01 0 0 1 8.411 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V9.589a3.011 3.011 0 0 1-1.742-1.604Z" />
-                                </svg>
-                            </button> */}
-                        {/* Control Buttons */}
-                        {/* <div className="bg-black flex items-center justify-center py-4">
-                           
-                            <button
-                                onClick={toggleVideo}
-                                className="mx-2 px-4 py-2 ">
-                                <svg className={`w-6 h-6 ${isVideoEnabled ? 'text-white' : 'text-gray-600'}`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 12.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" />
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 3h-2l-.447-.894A2 2 0 0 0 12.764 1H7.236a2 2 0 0 0-1.789 1.106L5 3H3a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V5a2 2 0 0 0-2-2Z" />
-                                </svg>
-                            </button>
-                            <button
-                                onClick={toggleAudio}
-                                className="mx-2 px-4 py-2 ">
-                                <svg className={`w-6 h-6 ${isAudioEnabled ? 'text-white' : 'text-gray-600'}`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 19">
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m9 12 5.419 3.871A1 1 0 0 0 16 15.057V2.943a1 1 0 0 0-1.581-.814L9 6m0 6V6m0 6H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h7m-5 6h3v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-5Zm15-3a3 3 0 0 1-3 3V6a3 3 0 0 1 3 3Z" />
-                                </svg>
-                            </button>
-                            <button
-                                onClick={toggleScreenShare}
-                                className="mx-2 px-4 py-2 ">
-                                <svg className={`w-6 h-6 ${isScreenSharing ? 'text-white' : 'text-gray-600'}`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 15h8m-8-4h8m-8-4h8M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zm16 14H4m16-2v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2" />
-                                </svg>
-                            </button>
-                            <button
-                                onClick={toggleFullScreen}
-                                className="mx-2 px-4 py-2 ">
-                                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 12h16M12 4v16M16 8l4-4m0 0-4 4M8 16l-4 4m0 0 4-4" />
-                                </svg>
-                            </button>
-                            <button
-                                onClick={handleChat}
-                                className="mx-2 px-4 py-2  text-black rounded bg-white">
-                                Disconnect
-                            </button>
-                        </div> */}
-                </>
-            {/* )} */}
+            {myStream && (
+                <video
+                    ref={myVideoRef}
+                    autoPlay
+                    muted
+                    style={{ width: "100%", height: "auto" }}
+                />
+            )}
+            {remoteStream && (
+                <video
+                    ref={remoteVideoRef}
+                    autoPlay
+                    style={{ width: "100%", height: "auto" }}
+                />
+            )}
+            <button onClick={() => sendStream(myStream)}>Send my video</button>
         </>
     );
 }
