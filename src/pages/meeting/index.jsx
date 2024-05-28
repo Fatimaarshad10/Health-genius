@@ -30,8 +30,7 @@ function Meeting() {
     }, [exp]);
 
     const { createOffer, createAnwers, setRemoteAns, sendStream, remoteStream, peer } = usePeer();
-    const socketRef = useRef(io(`https://health-genius.onrender.com`));
-    const socket = socketRef.current;
+    const socket = io(`${socketEndpoint}`);
     const handleUserJoined = useCallback(async (data) => {
         const { emailId } = data;
         console.log("New user joined room", emailId);
@@ -68,7 +67,7 @@ function Meeting() {
     }, [getUserMediaStream]);
 
     useEffect(() => {
-        
+        const socket = io(`${socketEndpoint}`);
         socket.on("connect", () => {
             socket.emit("join-room", {
                 emailId: user.email,
