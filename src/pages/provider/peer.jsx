@@ -31,14 +31,18 @@ export const PeerProvider = (props) => {
     };
 
     const setRemoteAns = async (ans) => {
-        console.log(ans)
+        console.log(ans);
         await peer.setRemoteDescription(ans);
     };
 
     const sendStream = async (stream) => {
         const tracks = stream.getTracks();
         for (const track of tracks) {
-            peer.addTrack(track, stream);
+            const senders = peer.getSenders();
+            const senderExists = senders.some(sender => sender.track === track);
+            if (!senderExists) {
+                peer.addTrack(track, stream);
+            }
         }
     };
 

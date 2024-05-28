@@ -31,6 +31,7 @@ function Meeting() {
 
     const { createOffer, createAnwers, setRemoteAns, sendStream, remoteStream, peer } = usePeer();
     const socket = io(`${socketEndpoint}`);
+
     const handleUserJoined = useCallback(async (data) => {
         const { emailId } = data;
         console.log("New user joined room", emailId);
@@ -40,18 +41,18 @@ function Meeting() {
     }, [createOffer, socket]);
 
     const handleIncomingCall = useCallback(async (data) => {
-        const { emailId, offer } = data;
-        console.log('Incoming call from', emailId, offer);
+        const { from, offer } = data;
+        console.log('Incoming call from', from, offer);
         const ans = await createAnwers(offer);
-        socket.emit('call-accepted', { emailId: emailId, ans });
+        socket.emit('call-accepted', { emailId: from, ans });
         setRemoteEmailId(from);
-    }, [createAnwers]);
+    }, [createAnwers, socket]);
 
     const handleCallAccepted = useCallback(async (data) => {
         const { ans } = data;
         console.log("Call Got accepted", ans);
         await setRemoteAns(ans);
-    }, [setRemoteAns]);
+    }, [setRemoteAns , socket]);
 
     const getUserMediaStream = useCallback(async () => {
         const stream = await navigator.mediaDevices.getUserMedia({
@@ -60,16 +61,17 @@ function Meeting() {
         });
         setMyStream(stream);
         sendStream(stream);
-    }, [sendStream]);
+    }, [sendStream , socket]);
 
     useEffect(() => {
         getUserMediaStream();
     }, [getUserMediaStream]);
 
     useEffect(() => {
+
         socket.on("connect", () => {
             socket.emit("join-room", {
-                emailId: user?.email,
+                emailId: user.email,
                 roomId: room
             });
         });
@@ -84,7 +86,7 @@ function Meeting() {
             socket.off("call-accepted", handleCallAccepted);
             socket.disconnect();
         };
-    }, [socket, user, room, handleUserJoined, handleIncomingCall, handleCallAccepted]);
+    }, []);
 
     const handleNegotiation = useCallback(async () => {
         try {
@@ -97,7 +99,7 @@ function Meeting() {
         } catch (error) {
             console.error('Error creating or setting local description:', error);
         }
-    }, [peer, remoteEmailId, socket , remoteStream]);
+    }, [peer, remoteEmailId, socket]);
 
     useEffect(() => {
         peer.addEventListener('negotiationneeded', handleNegotiation);
@@ -181,6 +183,7 @@ function Meeting() {
         }
         socket.emit("leave-meeting", { emailId: user.email, roomId: room });
         peer.close();
+        
         navigate('/chats');
 
     };
@@ -189,11 +192,18 @@ function Meeting() {
             if (myStream) {
                 myStream.getTracks().forEach(track => track.stop());
             }
+            socket.emit("leave-meeting", { emailId: user.email, roomId: room });
+        peer.close();
+        if (user.role === 'patient') {
+            navigate('/review');
+        } else {
+            navigate('/');
+        }
 
         }
     }, [isTokenExpired, myStream, peer, room, socket, navigate]);
 
-
+console.log(remoteStream)
     return (
         <>
             {isTokenExpired ? (
