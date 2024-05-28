@@ -112,9 +112,35 @@ function Meeting() {
             ) : ( */}
                 <>
                   
-                        {myStream && <ReactPlayer url={myStream} playing muted/>}
-                                {remoteStream && <ReactPlayer url={remoteStream} playing />}
-                            <button onClick={(e)=> sendStream(myStream)}>Sned my video</button>
+                return (
+    <>
+        {myStream && (
+            <video
+                ref={video => {
+                    if (video) {
+                        video.srcObject = myStream;
+                    }
+                }}
+                autoPlay
+                muted
+                style={{ width: "100%", height: "auto" }}
+            />
+        )}
+        {remoteStream && (
+            <video
+                ref={video => {
+                    if (video) {
+                        video.srcObject = remoteStream;
+                    }
+                }}
+                autoPlay
+                style={{ width: "100%", height: "auto" }}
+            />
+        )}
+        <button onClick={(e) => sendStream(myStream)}>Send my video</button>
+    </>
+);
+
                         {/* <button
                                 onClick={toggleStreaming}
                                 className="mx-2 px-4 py-2 ">
