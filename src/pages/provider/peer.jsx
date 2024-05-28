@@ -31,6 +31,7 @@ export const PeerProvider = (props) => {
     };
 
     const setRemoteAns = async (ans) => {
+        console.log(ans)
         await peer.setRemoteDescription(ans);
     };
 
@@ -53,11 +54,11 @@ export const PeerProvider = (props) => {
         };
     }, [peer, handleTrackEvent]);
 
-    useEffect(() => {
-        return () => {
-            peer.close();
-        };
-    }, [peer]);
+    // useEffect(() => {
+    //     return () => {
+    //         peer.close();
+    //     };
+    // }, [peer]);
 
     return (
         <PeerContext.Provider value={{ peer, createOffer, createAnwers, setRemoteAns, sendStream, remoteStream }}>
