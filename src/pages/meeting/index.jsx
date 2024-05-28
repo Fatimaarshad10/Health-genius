@@ -45,7 +45,7 @@ function Meeting() {
         const ans = await createAnwers(offer);
         socket.emit('call-accepted', { emailId: from, ans });
         setRemoteEmailId(from);
-    }, [createAnwers, socket]);
+    }, [createAnwers]);
 
     const handleCallAccepted = useCallback(async (data) => {
         const { ans } = data;
@@ -67,7 +67,9 @@ function Meeting() {
     }, [getUserMediaStream]);
 
     useEffect(() => {
-        const socket = io(`${socketEndpoint}`);
+        const socket = io(`${socketEndpoint}`,
+        { transports: ['websocket'] }
+        );
         socket.on("connect", () => {
             socket.emit("join-room", {
                 emailId: user.email,
@@ -98,7 +100,7 @@ function Meeting() {
         } catch (error) {
             console.error('Error creating or setting local description:', error);
         }
-    }, [peer, remoteEmailId, socket]);
+    }, [peer, remoteEmailId, socket , remoteStream]);
 
     useEffect(() => {
         peer.addEventListener('negotiationneeded', handleNegotiation);
