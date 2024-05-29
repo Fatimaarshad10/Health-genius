@@ -61,13 +61,13 @@ function AppContent() {
 
 function App() {
   return (
-    <SimpleMap/>
-    // <Provider store={store}>
-    //   <PeerProvider>
-    //   <AppContent />
-    //   </PeerProvider>
+    // <SimpleMap/>
+    <Provider store={store}>
+      <PeerProvider>
+      <AppContent />
+      </PeerProvider>
 
-    // </Provider>
+    </Provider>
   );
 }
 
