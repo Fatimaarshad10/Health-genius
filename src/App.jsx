@@ -11,7 +11,6 @@ import store from "./store";
 import "react-toastify/dist/ReactToastify.css";
 import {socketEndpoint} from './config/environment'
 import { PeerProvider } from './pages/provider/peer';
-import SimpleMap from './map'
 function AppContent() {
   const location = useLocation();
   const user = useSelector((state) => state?.auth?.user);
@@ -61,7 +60,6 @@ function AppContent() {
 
 function App() {
   return (
-    // <SimpleMap/>
     <Provider store={store}>
       <PeerProvider>
       <AppContent />
