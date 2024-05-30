@@ -9,12 +9,14 @@ import { useNavigate } from "react-router";
 const schema = yup.object({
     first_name: yup.string().required("First Name is required"),
     last_name: yup.string().required("Last Name is required"),
-    email: yup.string().email("Invalid email").required("Email is required"),
+    email: yup.string()
+    .email("Invalid email format")
+    .required("Email is required"),
     password: yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
     experience: yup.string().required("Experience is required"),
     license: yup.string().required("License is required"),
     specialist: yup.string().required("Specialist is required"),
-    city: yup.string().required("Country is required"),
+    city: yup.string().required("City is required"),
 });
 
 function DoctorRegister() {
@@ -75,18 +77,21 @@ function DoctorRegister() {
         <section class="mt-10">
             <div className="flex flex-col lg:flex-row justify-center">
                 <div className=" sm:w-auto sm:ml-10 lg:w-50 p-10 bg-indigo-200  rounded-lg">
-                    <h2 className="text-3xl font-bold mb-4 text-indigo-900">Registration Form</h2>
+                <h1 className="text-indigo-900 text-5xl text-center font-bold mb-10">Create Account</h1>
+
                     <div className="flex flex-wrap mb-4">
                         <div className="flex flex-col">
                             <div className="mb-4 mr-4 w-full lg:w-80">
                                 <input type="name"
                                     {...register("first_name")}
                                     id="first_name" placeholder="Enter your name" class=" p-5 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5  " required />
+                            {errors.first_name && <p className="text-red-600">{errors.first_name.message}</p>}
 
                             </div>
                             <div className="mb-4 mr-4 w-full lg:w-80">
                                 <input type="name"
                                     {...register("last_name")} id="lastName" placeholder="Enter your last name " class="p-5 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5  " required />
+                            {errors.last_name && <p className="text-red-600">{errors.last_name.message}</p>}
 
                             </div>
                         </div>
@@ -130,16 +135,20 @@ function DoctorRegister() {
                     <div className="mb-4">
                         <input className="shadow-sm bg-indigo-200 border border-gray-300 text-black  text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-300 block w-full p-2.5 bg-white" id="email" type="text" placeholder="E-mail Address"
                             {...register("email")} />
+                            {errors.email && <p className="text-red-600">{errors.email.message}</p>}
+
                     </div>
                     <div className="mb-4">
                         <input className="shadow-sm bg-indigo-200 border border-gray-300  text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white" id="password" type="password" placeholder="Type Password"
                             {...register("password")} />
+                            {errors.password && <p className="text-red-600">{errors.password.message}</p>}
+
                     </div>
                     <div className="mb-4">
                         <input className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-300 block w-full p-2.5 bg-white" id="phone" type="number" placeholder="Phone number"
                             {...register("phone_no")} />
                     </div>
-                    <h3 className="text-lg font-bold mb-2 text-indigo-900">Select Country</h3>
+                    <h3 className="text-lg font-bold mb-2 text-indigo-900">Select City</h3>
 
                     <div className=" mb-4">
                         <select    {...register("city")} id="city" className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white">
@@ -149,11 +158,15 @@ function DoctorRegister() {
                             <option value="Karachi">Karachi</option>
                             <option value="Islamabad">Islamabad</option>
                         </select>
+                        {errors.city && <p className="text-red-600">{errors.city.message}</p>}
+
                     </div>
                     <h3 className="text-lg font-bold mb-2 text-indigo-900">Professional Information</h3>
                     <div className="mb-4">
                         <input className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white" id="license" type="text" placeholder="Medical License NO"
                             {...register("license")} />
+                            {errors.license && <p className="text-red-600">{errors.license.message}</p>}
+
                     </div>
                     <div className="flex mb-4">
                         <div className="mr-2 w-full lg:w-48">
@@ -164,6 +177,8 @@ function DoctorRegister() {
                                 <option value="Gynecologists">Gynecologists</option>
                                 <option value="Psychiatrists">Psychiatrists</option>
                             </select>
+                            {errors.specialist && <p className="text-red-600">{errors.specialist.message}</p>}
+
                         </div>
                         <div className="mr-2 w-full lg:w-48">
                             <select {...register("experience")} id="Years" className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white">
@@ -173,20 +188,14 @@ function DoctorRegister() {
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                             </select>
+                            {errors.experience && <p className="text-red-600">{errors.experience.message}</p>}
+
                         </div>
                     </div>
                     <div className="mb-4">
                         <input    {...register("medical_degree")} className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white" id="degree" type="text" placeholder="Medical Degree" />
                     </div>
-                    <div className=" mb-4">
-                        <select    {...register("hospital_affiliation")} id="hospital_affiliation" className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white">
-                            <option value="">Select City</option>
-                            <option value="Faisalabad">Faisalabad</option>
-                            <option value="Lahore">Lahore</option>
-                            <option value="Karachi">Karachi</option>
-                            <option value="Islamabad">Islamabad</option>
-                        </select>
-                    </div>
+                    
                     <div className=" mb-4 ">
 
                         <h3 className="text-lg font-bold mb-2 text-indigo-900">
