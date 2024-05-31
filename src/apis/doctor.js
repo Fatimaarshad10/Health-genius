@@ -23,3 +23,16 @@ export async function searchDoctor(query) {
   return result;
 }
 
+//search Doctor
+export async function getDoctor() {
+  const result = await getRequest(`doctor/search`);
+  return result;
+}
+
+
+
+//search accounts
+export async function searchReview(id) {
+  const result = await getRequest(`review/${id}`);
+  return result;
+}

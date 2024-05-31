@@ -1,11 +1,15 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
-import { searchDoctor } from "../../apis/doctor";
+import { searchDoctor, searchReview } from "../../apis/doctor";
+import RatingReview from '../../data'
 
 function MainSearch() {
     const { state } = useLocation();
     const navigate = useNavigate();
+    const [rating, setRating] = useState(0);
+    const [totalReview, setTotalReview] = useState(0);
+
     const [searchQuery, setSearchQuery] = useState(state.specialist);
     const [city, setCity] = useState(state.city);
     const [searchResults, setSearchResults] = useState(state.response);
@@ -26,6 +30,23 @@ function MainSearch() {
         navigate("/doctor/detail", { state: { doctor: data } });
 
     }
+    const handleRating = async (doctorId) => {
+        try {
+            const response = await searchReview(doctorId);
+            setRating(response.data.averageRating);
+            setTotalReview(response.data.totalReviews)
+        } catch (error) {
+            console.error(error);
+            setRating(0);
+        }
+    }
+
+    useEffect(() => {
+        // Fetch average rating for each doctor in searchResults
+        searchResults?.data?.Doctor?.forEach(doctor => {
+            handleRating(doctor._id);
+        });
+    }, [searchResults]);
 
     return (
         <>
@@ -107,76 +128,89 @@ function MainSearch() {
             </div>
             <div>
                 {/* Pre : Here i will add the map where show the list of doctor according to the search */}
+
                 <div class="bg-white border border-gray-200 rounded-lg mt-10 ml-20 mr-20 p-10">
                     {searchResults?.data?.Doctor?.map((data) =>
                         <>
-                            <div className="flex lg-flex-row " key={data._id}>
-                                <div>
-                                    <img class="rounded-full object-cover w-40 h-40" src={data.image} alt="" />
+                            <button onClick={() => handleDoctor(data)} className="text-left">
+
+                                <div className="flex lg-flex-row " key={data._id}>
+                                    <div>
+                                        <img class="rounded-full object-cover w-40 h-40" src={data.image} alt="" />
+                                    </div>
+                                    <div className="lg:w-30 mr-10 ml-10">
+                                        <h2 className="text-indigo-900 font-bold text-3xl hover:text-blue-900">
+                                            {data.first_name.charAt(0).toUpperCase() + data.first_name.slice(1)}{" "}
+                                            {data.last_name.charAt(0).toUpperCase() + data.last_name.slice(1)}
+                                        </h2>
+                                        <div className="">
+                                            <RatingReview rating={rating} setRating={setRating} />
+
+                                        </div>
+                                        <p className="font-bold">{data.specialist}</p>
+                                        <p className="text-sm w-60">{data.medical_degree} {data.hospital_affiliation}</p>
+                                        <div className="flex lg:flex-row gap-5 mt-10">
+                                            {/* Experience */}
+
+                                            <div className="">
+                                                <h2 className="text-indigo-900 font-bold ">Experience</h2>
+                                                <p>{data.experience} Year</p>
+                                            </div>
+                                            {/* review */}
+
+                                            <div className="">
+                                                <h2 className="text-indigo-900 font-bold ">Review</h2>
+                                                <p>{totalReview}</p>
+                                            </div>
+                                            {/* Satisfaction */}
+                                            <div className="">
+                                                <h2 className="text-indigo-900 font-bold ">Satisfaction</h2>
+                                                <p>{rating}</p>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div className="flex lg:flex-row gap-5 ">
+                                        <button
+                                            className="rounded md:bg-indigo-900 w-60 h-20 text-l font-semibold text-black md:text-white hover:bg-indigo-50   dark:hover:text-indigo-300  "
+                                        >
+                                            Video Call
+                                        </button>
+                                        <button
+                                            className="rounded md:bg-indigo-900 w-60 h-20 text-l font-semibold text-black md:text-white hover:bg-indigo-50   dark:hover:text-indigo-300  "
+                                        >
+                                            View Timings
+                                        </button>
+                                    </div>
+
                                 </div>
-                                <div className="lg:w-30 mr-10 ml-10">
-                                    <h2 className="text-indigo-900 font-bold text-3xl">
-                                        <button onClick={() => handleDoctor(data)}>{data.first_name} {data.last_name}</button>
-                                    </h2>
-
-                                    {/* <Link to='/doctor/detail'  { state: { data._id} }></Link></h2> */}
-                                    <p className="font-bold">{data.specialist}</p>
-                                    <p className="text-sm w-60">{data.medical_degree} {data.hospital_affiliation}</p>
-                                    <div className="flex lg:flex-row gap-5 mt-10">
-                                        {/* review */}
-                                        <div className="">
-                                            <h2 className="text-indigo-900 font-bold ">Review</h2>
-                                            <p>2375</p>
-                                        </div>
-                                        {/* Experience */}
-                                        <div className="">
-                                            <h2 className="text-indigo-900 font-bold ">Experience</h2>
-                                            <p>{data.experience} Year</p>
-                                        </div>
-                                        {/* Satisfaction */}
-                                        <div className="">
-                                            <h2 className="text-indigo-900 font-bold ">Satisfaction</h2>
-                                            <p>97%</p>
-
-                                        </div>
+                                <div className="flex lg-flex-row gap-10 mt-10 justify-center">
+                                    {/* Card no 1  */}
+                                    <div className="border border-gray-200 p-5">
+                                        <h2 className="text-indigo-900 text-2xl">Video consultation</h2>
+                                        <p>Available today</p>
+                                        <p className="mt-5">Rs. 1000</p>
+                                    </div>
+                                    {/* Card no 2  */}
+                                    <div className="border border-gray-200 p-5">
+                                        <h2 className="text-indigo-900 text-2xl">Nishtar Hospital, Multan</h2>
+                                        <p>Available today</p>
+                                        <p className="mt-5">Free</p>
+                                    </div>
+                                    {/* Card no 3  */}
+                                    <div className="border border-gray-200 p-5">
+                                        <h2 className="text-indigo-900 text-2xl">City Hospital, Multan</h2>
+                                        <p>Available tomorrow</p>
+                                        <p className="mt-5">Rs. 3000</p>
                                     </div>
                                 </div>
-                                <div className="flex lg:flex-row gap-5 ">
-                                    <button
-                                        className="rounded md:bg-indigo-900 w-60 h-20 text-l font-semibold text-black md:text-white hover:bg-indigo-50   dark:hover:text-indigo-300  "
-                                    >
-                                        Video Call
-                                    </button>
-                                    <button
-                                        className="rounded md:bg-indigo-900 w-60 h-20 text-l font-semibold text-black md:text-white hover:bg-indigo-50   dark:hover:text-indigo-300  "
-                                    >
-                                        View Timings
-                                    </button>
-                                </div>
+                            </button>
 
-                            </div>
-                            <div className="flex lg-flex-row gap-10 mt-10 justify-center">
-                                {/* Card no 1  */}
-                                <div className="border border-gray-200 p-5">
-                                    <h2 className="text-indigo-900 text-2xl">Video consultation</h2>
-                                    <p>Available today</p>
-                                    <p className="mt-5">Rs. 1000</p>
-                                </div>
-                                {/* Card no 2  */}
-                                <div className="border border-gray-200 p-5">
-                                    <h2 className="text-indigo-900 text-2xl">Nishtar Hospital, Multan</h2>
-                                    <p>Available today</p>
-                                    <p className="mt-5">Free</p>
-                                </div>
-                                {/* Card no 3  */}
-                                <div className="border border-gray-200 p-5">
-                                    <h2 className="text-indigo-900 text-2xl">City Hospital, Multan</h2>
-                                    <p>Available tomorrow</p>
-                                    <p className="mt-5">Rs. 3000</p>
-                                </div>
-                            </div>
                         </>)}
                 </div>
+
             </div>
         </>
     )

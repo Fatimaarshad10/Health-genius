@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {  useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router";
+import RatingReview from '../../data'
+import {searchReview }from '../../apis/doctor'
 
 const DoctorProfile = () => {
+  const [rating, setRating] = useState(0);
   const [startDate, setStartDate] = useState(new Date());
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -13,6 +16,13 @@ const DoctorProfile = () => {
     navigate("/book/appointment", { state: { doctor: state.doctor } });
 
   }
+  const handleRating = async()=>{
+    const data = await searchReview(state?.doctor?._id)
+    setRating(data.data.averageRating)
+  }
+  useEffect(()=>{
+handleRating()
+  } , [state])
   return (
     <>
 
@@ -23,8 +33,14 @@ const DoctorProfile = () => {
           </>
         </div>
         <div className="mt-5 flex flex-col">
+          <div className="text-center">
+            <RatingReview rating={rating} setRating={setRating} />
+
+          </div>
+
           <h1 className='text-2xl font-bold text-indigo-900 text-center uppercase'>{state?.doctor?.first_name}</h1>
           <p className="text-center">{state?.doctor?.specialist} {state?.doctor?.city}</p>
+
           <div className="flex flex-row text-center  justify-center">
             <button
               className=" md:bg-indigo-400 px-5 py-3 text-l font-semibold text-black 
@@ -33,7 +49,10 @@ const DoctorProfile = () => {
             >
               Profile Setting
             </button>
+
+
           </div>
+
 
         </div>
 
