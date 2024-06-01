@@ -3,6 +3,8 @@ import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { searchDoctor, getDoctor } from '../../apis/doctor'
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { useDispatch , useSelector } from "react-redux";
+import { setSearchCriteria } from "../../store/slices/count.auth"
 
 function Search() {
     const [city, setCity] = useState("");
@@ -10,6 +12,7 @@ function Search() {
     const [suggestions, setSuggestions] = useState([]);
     const [specialist, setSpecialist] = useState("");
     const [location, setLocation] = useState(null)
+    const dispatch = useDispatch()
 
 
 
@@ -38,7 +41,8 @@ function Search() {
             const queryString = `?city=${city}&specialist=${specialist}`;
             const response = await searchDoctor(queryString);
             setSearchResults(response);
-            navigate("/search-result", { state: { specialist, city, response } });
+            dispatch(setSearchCriteria({ city, specialist: specialist , response : response}));
+            navigate("/search-result");
         } catch (error) {
             alert(error.message);
         }

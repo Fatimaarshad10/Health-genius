@@ -2,17 +2,24 @@ import React, { useState, useEffect } from "react"
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
 import { searchDoctor, searchReview } from "../../apis/doctor";
+import { setSearchCriteria } from "../../store/slices/count.auth"
 import RatingReview from '../../data'
+import { useDispatch , useSelector } from "react-redux";
 
 function MainSearch() {
     const { state } = useLocation();
     const navigate = useNavigate();
+    const dispatch = useDispatch()
+
     const [rating, setRating] = useState(0);
     const [totalReview, setTotalReview] = useState(0);
 
-    const [searchQuery, setSearchQuery] = useState(state.specialist);
-    const [city, setCity] = useState(state.city);
-    const [searchResults, setSearchResults] = useState(state.response);
+    const searchData = useSelector((state) => state.count);
+
+
+    const [searchQuery, setSearchQuery] = useState(searchData.specialist);
+    const [city, setCity] = useState(searchData.city);
+    const [searchResults, setSearchResults] = useState(searchData.response);
     // Search for doctor
     const handleSearch = async (e) => {
         e.preventDefault();
@@ -20,6 +27,7 @@ function MainSearch() {
             const queryString = `?city=${city}&specialist=${searchQuery}`;
             const response = await searchDoctor(queryString);
             setSearchResults(response);
+            dispatch(setSearchCriteria({ city, specialist: searchQuery }));
 
         } catch (error) {
             alert(error.message);
@@ -47,6 +55,7 @@ function MainSearch() {
             handleRating(doctor._id);
         });
     }, [searchResults]);
+    
 
     return (
         <>
