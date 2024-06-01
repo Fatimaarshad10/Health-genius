@@ -24,7 +24,7 @@ function Meeting() {
             const currentTime = Math.floor(Date.now() / 1000); // Get current time in seconds
 
             if (exp && currentTime > exp) {
-                setIsTokenExpired(true);
+                setIsTokenExpired(false);
             }
         }, 1000); // Check every second
 
@@ -39,7 +39,7 @@ function Meeting() {
         const offer = await createOffer();
         socket.emit('call-user', { emailId, offer });
         setRemoteEmailId(emailId);
-    }, [createOffer, socket]);
+    }, [createOffer]);
 
     const handleIncomingCall = useCallback(async (data) => {
         const { from, offer } = data;
@@ -47,13 +47,13 @@ function Meeting() {
         const ans = await createAnwers(offer);
         socket.emit('call-accepted', { emailId: from, ans });
         setRemoteEmailId(from);
-    }, [createAnwers, socket]);
+    }, [createAnwers]);
 
     const handleCallAccepted = useCallback(async (data) => {
         const { ans } = data;
         console.log("Call Got accepted", ans);
         await setRemoteAns(ans);
-    }, [setRemoteAns , socket]);
+    }, [ setRemoteAns]);
 
     const getUserMediaStream = useCallback(async () => {
         const stream = await navigator.mediaDevices.getUserMedia({
@@ -62,7 +62,7 @@ function Meeting() {
         });
         setMyStream(stream);
         sendStream(stream);
-    }, []);
+    }, [sendStream]);
 
     useEffect(() => {
         getUserMediaStream();
@@ -86,7 +86,7 @@ function Meeting() {
             socket.off("call-accepted", handleCallAccepted);
             // socket.disconnect();
         };
-    }, []);
+    }, [handleUserJoined, handleIncomingCall, handleCallAccepted]);
 
     const handleNegotiation = useCallback(async () => {
         try {
