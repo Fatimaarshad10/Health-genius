@@ -24,7 +24,7 @@ function Meeting() {
             const currentTime = Math.floor(Date.now() / 1000); // Get current time in seconds
 
             if (exp && currentTime > exp) {
-                setIsTokenExpired(false);
+                setIsTokenExpired(true);
             }
         }, 1000); // Check every second
 
