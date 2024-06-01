@@ -11,8 +11,16 @@ function MainSearch() {
     const navigate = useNavigate();
     const dispatch = useDispatch()
 
+    const specialistOptions = [
+        { name: "dermatologist", description: "Skin specialist" },
+        { name: "gynecologist", description: "Specialist in women's reproductive health" },
+        { name: "psychiatrist", description: "Specialist in mental health disorders" }
+    ];
+
     const [rating, setRating] = useState(0);
     const [totalReview, setTotalReview] = useState(0);
+    const [specialist, setSpecialist] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
 
     const searchData = useSelector((state) => state.count);
 
@@ -57,6 +65,17 @@ function MainSearch() {
     }, [searchResults]);
     
 
+    const handleInputChange = (event) => {
+        const { value } = event.target;
+        setSpecialist(value);
+
+        // Filter specialist list based on user input
+        const filteredSuggestions = specialistOptions.filter((specialist) =>
+            specialist.name.toLowerCase().includes(value.toLowerCase())
+        );
+        setSuggestions(filteredSuggestions);
+    };
+
     return (
         <>
             <div>
@@ -85,8 +104,9 @@ function MainSearch() {
 
                         <div class="relative w-full">
                             <input type="search"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                            value={specialist}
+                            onChange={handleInputChange}
+                               
                                 class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-indigo-400 focus:border-indigo-400 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-indigo-900" placeholder="Search" required />
                             <button type="submit" class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-indigo-900 rounded-e-lg border hover:bg-indigo-400 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-indigo-400 dark:hover:bg-indigo-400 dark:focus:ring-indigo-900">
                                 <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -95,7 +115,24 @@ function MainSearch() {
                                 <span class="sr-only">Search</span>
                             </button>
                         </div>
+
+                            
+
                     </div>
+                    {/* Display suggestions */}
+                    {suggestions.length > 0 && (
+                                <ul className="absolute z-50 mt-1 bg-white border border-gray-300 rounded-md w-50">
+                                    {suggestions.map((specialist, index) => (
+                                        <li
+                                            key={index}
+                                            className="px-2 py-1 hover:bg-gray-100 cursor-pointer"
+                                            onClick={() => setSpecialist(specialist.name)}
+                                        >
+                                            {specialist.name} - {specialist.description}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                 </form>
                 <button
                     className="rounded md:bg-indigo-400 font-semibold text-black 

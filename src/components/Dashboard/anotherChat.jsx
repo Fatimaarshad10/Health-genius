@@ -140,11 +140,13 @@ function ChatChecker() {
                                                 </form>
 
                                             </div>
-                                            {inboxData?.map((data) => (
+                                            <div class=" overflow-y-scroll bg-white border border-gray-100 rounded-lg h-96 " >
 
-                                                <div class=" overflow-y-scroll bg-white border border-gray-100 rounded-lg h-96 " key={data._id} onClick={() => handleInboxClick(data._id)}>
+                                            {inboxData?.map((data) => (
+                                                <>
                                                     {data?.senderId._id === user._id ? (<>
-                                                        <div class="entry cursor-pointer transform hover:scale-105 duration-300 transition-transform bg-white border-2 mb-4 rounded p-4 flex shadow-md border-l-4 border-indigo-500">
+                                                        <div class="entry cursor-pointer transform hover:scale-105 duration-300 transition-transform bg-white border-2 mb-4 rounded p-4 flex shadow-md border-l-4 border-indigo-500"
+                                                        key={data._id} onClick={() => handleInboxClick(data._id)}>
                                                             <div class="flex-2">
                                                                 <div class="w-12 h-12 relative">
                                                                     <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-indigo-900 rounded-full ">
@@ -162,7 +164,8 @@ function ChatChecker() {
                                                     </>) : (<>
 
 
-                                                        <div class="entry cursor-pointer transform hover:scale-105 duration-300 transition-transform bg-white border-2 mb-4 rounded p-4 flex shadow-md border-l-4 border-indigo-500">
+                                                        <div class="entry cursor-pointer transform hover:scale-105 duration-300 transition-transform bg-white border-2 mb-4 rounded p-4 flex shadow-md border-l-4 border-indigo-500"
+                                                        key={data._id} onClick={() => handleInboxClick(data._id)}>
                                                             <div class="flex-2">
                                                                 <div class="w-12 h-12 relative">
                                                                     <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-indigo-900 rounded-full ">
@@ -177,10 +180,11 @@ function ChatChecker() {
                                                             </div>
                                                         </div>
                                                     </>)}
+
+                                                    </>
+                                            ))}
                                                 </div>
 
-
-                                            ))}
                                         </div>
                                         <div class="chat-area flex-1 flex flex-col">
                                             {inboxId ? (

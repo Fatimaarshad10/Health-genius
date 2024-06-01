@@ -28,11 +28,10 @@ function Search() {
 
 
     const navigate = useNavigate();
-
-    const specialistList = [
-        { name: "cardiologist", description: "Specialist in heart-related issues" },
+    const specialistOptions = [
         { name: "dermatologist", description: "Skin specialist" },
-        { name: "pediatrician", description: "Doctor for children" },
+        { name: "gynecologist", description: "Specialist in women's reproductive health" },
+        { name: "psychiatrist", description: "Specialist in mental health disorders" }
     ];
 
     const handleSearch = async (e) => {
@@ -52,7 +51,7 @@ function Search() {
         setSpecialist(value);
 
         // Filter specialist list based on user input
-        const filteredSuggestions = specialistList.filter((specialist) =>
+        const filteredSuggestions = specialistOptions.filter((specialist) =>
             specialist.name.toLowerCase().includes(value.toLowerCase())
         );
         setSuggestions(filteredSuggestions);
