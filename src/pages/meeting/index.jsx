@@ -39,7 +39,7 @@ function Meeting() {
         const offer = await createOffer();
         socket.emit('call-user', { emailId, offer });
         setRemoteEmailId(emailId);
-    }, [createOffer]);
+    }, [createOffer, socket]);
 
     const handleIncomingCall = useCallback(async (data) => {
         const { from, offer } = data;
@@ -47,13 +47,13 @@ function Meeting() {
         const ans = await createAnwers(offer);
         socket.emit('call-accepted', { emailId: from, ans });
         setRemoteEmailId(from);
-    }, [createAnwers]);
+    }, [createAnwers, socket]);
 
     const handleCallAccepted = useCallback(async (data) => {
         const { ans } = data;
         console.log("Call Got accepted", ans);
         await setRemoteAns(ans);
-    }, [ setRemoteAns]);
+    }, [setRemoteAns]);
 
     const getUserMediaStream = useCallback(async () => {
         const stream = await navigator.mediaDevices.getUserMedia({
@@ -61,8 +61,7 @@ function Meeting() {
             video: true
         });
         setMyStream(stream);
-        sendStream(stream);
-    }, [sendStream]);
+    }, []);
 
     useEffect(() => {
         getUserMediaStream();
@@ -81,12 +80,12 @@ function Meeting() {
         socket.on("call-accepted", handleCallAccepted);
 
         return () => {
-            socket.off('user-joined', handleUserJoined);
-            socket.off('incoming-call', handleIncomingCall);
-            socket.off("call-accepted", handleCallAccepted);
-            // socket.disconnect();
+            // socket.off('user-joined', handleUserJoined);
+            // socket.off('incoming-call', handleIncomingCall);
+            // socket.off("call-accepted", handleCallAccepted);
+            socket.disconnect();
         };
-    }, [handleUserJoined, handleIncomingCall, handleCallAccepted]);
+    }, [handleUserJoined, handleIncomingCall, handleCallAccepted, socket]);
 
     const handleNegotiation = useCallback(async () => {
         try {
@@ -99,7 +98,7 @@ function Meeting() {
         } catch (error) {
             console.error('Error creating or setting local description:', error);
         }
-    }, []);
+    }, [peer.localDescription, socket, remoteEmailId]);
 
     useEffect(() => {
         peer.addEventListener('negotiationneeded', handleNegotiation);
@@ -117,7 +116,7 @@ function Meeting() {
         }
         socket.emit("leave-meeting", { emailId: user.email, roomId: room });
         peer.close();
-        
+
         navigate('/chats');
 
     };
@@ -155,22 +154,33 @@ function Meeting() {
                 </>
             ) : (
                 <>
+                    <h1 className="text-lg font-bold mb-2 text-indigo-900  text-center w-full p-2.5 ">You are connected to {remoteEmailId}</h1>
+
                     <div className="flex flex-col h-screen">
+
                         {/* Video Display Area */}
                         <div className="flex-1 relative" ref={videoContainerRef}>
-                            <div className="absolute inset-0 flex items-center justify-center bg-black">
+                            <div className="absolute inset-0 flex items-center justify-center bg-indigo-100">
+
                                 {/* Video Player */}
-                                {myStream && <ReactPlayer url={myStream} playing muted/>}
+                                {myStream && <ReactPlayer url={myStream} playing muted />}
                                 {remoteStream && <ReactPlayer url={remoteStream} playing />}
                             </div>
                         </div>
                         {/* Control Buttons */}
-                        <div className="bg-black flex items-center justify-center py-4">
+                        <div className="bg-indigo-100 flex items-center justify-center py-4">
+                            <button
+                                onClick={(e) => sendStream(myStream)}
+                                className="mx-2 px-4 py-2  text-black rounded bg-white">
+
+                                Send My stream
+                            </button>
                             <button
                                 onClick={handleChat}
                                 className="mx-2 px-4 py-2  text-black rounded bg-white">
                                 Disconnect
                             </button>
+
                         </div>
                     </div>
                 </>
