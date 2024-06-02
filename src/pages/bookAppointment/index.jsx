@@ -39,9 +39,20 @@ function BookAppointment() {
   const [endTime, setEndTime] = useState("");
   const [selectedDay, setSelectedDay] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
   const { handleSubmit } = useForm();
 
   const onSubmit = () => {
+    const newErrors = {};
+    if (!startTime) newErrors.startTime = "Start time is required";
+    if (!endTime) newErrors.endTime = "End time is required";
+    if (!selectedDay) newErrors.selectedDay = "Day is required";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     setLoading(true);
     const appointmentData = {
       appointment: "online",
@@ -79,32 +90,40 @@ function BookAppointment() {
           <select
             id="start_time"
             value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
+            onChange={(e) => {
+              setStartTime(e.target.value);
+              if (errors.startTime) setErrors({ ...errors, startTime: "" });
+            }}
             className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white"
           >
             <option value="" disabled selected>
               Start Time
             </option>
             {state.doctor.availabilityTimes.map((data) => (
-              <option value={data.start_time}>{data.start_time}</option>
+              <option key={data.start_time} value={data.start_time}>{data.start_time}</option>
             ))}
           </select>
+          {errors.startTime && <p className="text-red-500">{errors.startTime}</p>}
         </div>
         <div>
           <div className="mr-2 w-full lg:w-48">
             <select
               id="end_time"
               value={endTime}
-              onChange={(e) => setEndTime(e.target.value)}
+              onChange={(e) => {
+                setEndTime(e.target.value);
+                if (errors.endTime) setErrors({ ...errors, endTime: "" });
+              }}
               className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white"
             >
               <option value="" disabled selected>
                 End Time
               </option>
               {state.doctor.availabilityTimes.map((data) => (
-                <option value={data.end_time}>{data.end_time}</option>
+                <option key={data.end_time} value={data.end_time}>{data.end_time}</option>
               ))}
             </select>
+            {errors.endTime && <p className="text-red-500">{errors.endTime}</p>}
           </div>
         </div>
       </div>
@@ -113,7 +132,10 @@ function BookAppointment() {
           <select
             id="day"
             value={selectedDay}
-            onChange={(e) => setSelectedDay(e.target.value)}
+            onChange={(e) => {
+              setSelectedDay(e.target.value);
+              if (errors.selectedDay) setErrors({ ...errors, selectedDay: "" });
+            }}
             className="shadow-sm bg-indigo-200 border border-gray-300 text-black text-sm rounded-lg focus:ring-indigo-300 focus:border-indigo-500 block w-full p-2.5 bg-white"
           >
             <option value="" disabled selected>
@@ -130,6 +152,7 @@ function BookAppointment() {
               );
             })}
           </select>
+          {errors.selectedDay && <p className="text-red-500">{errors.selectedDay}</p>}
         </div>
         <div className="flex justify-center">
           <button
