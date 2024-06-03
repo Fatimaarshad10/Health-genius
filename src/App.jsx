@@ -11,28 +11,30 @@ import store from "./store";
 import "react-toastify/dist/ReactToastify.css";
 import {socketEndpoint} from './config/environment'
 import { PeerProvider } from './pages/provider/peer';
+import PrivateRoute from "./privateRoute";
+
 function AppContent() {
   const location = useLocation();
   const user = useSelector((state) => state?.auth?.user);
 
   useEffect(() => {
-    const socket = io(`${socketEndpoint}`);
-    socket.on("connect", () => {
-      socket.emit("addUser", { userId: user._id });
-    });
-    return () => {
-      socket.disconnect();
-    };
-  }, [user._id]);
+    if (user) {
+      const socket = io(socketEndpoint);
+      socket.on("connect", () => {
+        socket.emit("addUser", { userId: user._id });
+      });
+      return () => {
+        socket.disconnect();
+      };
+    }
+  }, [user]);
 
-//  location.pathname === '/login' || 
-  //   location.pathname === '/register' || 
-  //   location.pathname === '/doctor/signup' ||
-  //   location.pathname === '/patient/signup' || 
-    const hideNavbar =location.pathname === '/doctor/dashboard' ||
-    location.pathname === '/doctor/dashboard/appointments' ||
-    location.pathname === '/chats' ||
-    location.pathname === '/doctor/dashboard/reports';
+  const hideNavbar = [
+    '/doctor/dashboard',
+    '/doctor/dashboard/appointments',
+    '/chats',
+    '/doctor/dashboard/reports'
+  ].includes(location.pathname);
 
   return (
     <>
@@ -45,12 +47,20 @@ function AppContent() {
       />
       {!hideNavbar && <Pages.Navbar />}
       <Routes>
-        {AllRoutes?.map((item, index) => (
+        {AllRoutes.map((item, index) => (
           <Route
             key={index}
             path={item.path}
-            element={item.page}
-          ></Route>
+            element={
+              item.isPrivate ? (
+                <PrivateRoute permissions={item.permissions}>
+                  {item.page}
+                </PrivateRoute>
+              ) : (
+                item.page
+              )
+            }
+          />
         ))}
       </Routes>
       {!hideNavbar && <Pages.Footer />}
