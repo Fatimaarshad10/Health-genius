@@ -86,13 +86,13 @@ export const AllRoutes = [
     path: "/doctor/detail",
     page: <Pages.DoctorProfile />,
     isPrivate: true,
-    permissions: [Roles.DOCTOR],
+    permissions: [Roles.DOCTOR , Roles.PATIENT],
   },
   {
     path: "/patient/profile",
     page: <Pages.PatientProfile />,
     isPrivate: true,
-    permissions: [Roles.PATIENT],
+    permissions: [Roles.PATIENT , Roles.DOCTOR],
   },
   {
     path: "/book/appointment",
