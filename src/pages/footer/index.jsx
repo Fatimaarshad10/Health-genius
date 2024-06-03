@@ -16,32 +16,32 @@ function Footer() {
                         </div>
                         <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                             <div>
-                                <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Company</h2>
+                                <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Top Specialities</h2>
                                 <ul class="text-black dark:text-white font-medium">
                                     <li class="mb-4">
-                                        <a href="#" class="hover:underline">ABC</a>
+                                        <a href="#" class="hover:underline">Dermatologist</a>
                                     </li>
                                     <li class="mb-4">
-                                        <a href="#" class="hover:underline">ABC</a>
+                                        <a href="#" class="hover:underline">Gynecologist</a>
                                     </li>
                                     <li class="mb-4">
-                                        <a href="#" class="hover:underline">ABC</a>
+                                        <a href="#" class="hover:underline">psychiatrist</a>
                                     </li>
 
                                 </ul>
                             </div>
                             <div>
-                                <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Product</h2>
+                                <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Top Cities</h2>
                                 <ul class="text-black dark:text-white font-medium">
 
                                     <li class="mb-4">
-                                        <a href="#" class="hover:underline ">DEF</a>
+                                        <a href="#" class="hover:underline ">Lahore</a>
                                     </li>
                                     <li class="mb-4">
-                                        <a href="#" class="hover:underline ">DEF</a>
+                                        <a href="#" class="hover:underline ">Karachi</a>
                                     </li>
                                     <li class="mb-4">
-                                        <a href="#" class="hover:underline ">DEF</a>
+                                        <a href="#" class="hover:underline ">Faisalabad</a>
                                     </li>
 
                                 </ul>
@@ -50,13 +50,13 @@ function Footer() {
                                 <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Services</h2>
                                 <ul class="text-black dark:text-white font-medium">
                                     <li class="mb-4">
-                                        <a href="#" class="hover:underline">IJK</a>
+                                        <a href="#" class="hover:underline">Top rated physicians</a>
                                     </li>
                                     <li class="mb-4">
-                                        <a href="#" class="hover:underline">IJK</a>
+                                        <a href="#" class="hover:underline">Orthopedic surgeons</a>
                                     </li>
                                     <li class="mb-4">
-                                        <a href="#" class="hover:underline">IJK</a>
+                                        <a href="#" class="hover:underline">Dermatologists</a>
                                     </li>
 
                                 </ul>
