@@ -39,6 +39,7 @@ Express.js: Minimal and flexible Node.js web application framework for building 
 <h4> MongoDB: Non-SQL database for storing and managing structured and unstructured data efficiently.</h4>
 
 <h1>Getting Started</h1>
+<a href='https://health-genius.vercel.app/'>Click me</a>
 <h2>
   To run the frontend: <br>
 cd frontend
