@@ -5,6 +5,7 @@ import { searchDoctor, getDoctor } from '../../apis/doctor'
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { useDispatch , useSelector } from "react-redux";
 import { setSearchCriteria } from "../../store/slices/count.auth"
+// import * as process from "process";
 
 function Search() {
     const [city, setCity] = useState("");
@@ -14,6 +15,7 @@ function Search() {
     const [location, setLocation] = useState(null)
     const dispatch = useDispatch()
 
+    // const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 
     const containerStyle = {
@@ -81,21 +83,7 @@ function Search() {
             <div className="mt-5 ml-8">
 
                 <form class="max-w-lg mx-auto" onSubmit={handleSearch}>
-                    <LoadScript googleMapsApiKey="AIzaSyBnV3N5F0o9jcOG_vkX8u2Q4PvQG326jsw">
-                        <GoogleMap
-                            mapContainerStyle={containerStyle}
-                            center={center}
-                            zoom={5}
-                        >
-                            {location?.map((location) => (
-                                <Marker
-                                    key={location.city}
-                                    position={{ lat: location.latitude, lng: location.longitude }}
-                                    label={location.city.charAt(0).toUpperCase() + location.city.slice(1)}  // Capitalize the first letter of the label
-                                />
-                            ))}
-                        </GoogleMap>
-                    </LoadScript>
+                   
                     <div class="flex mt-5">
                         <label for="search-dropdown" class="mb-2 text-sm font-medium text-gray-900  dark:text-white"></label>
                         <select
@@ -184,3 +172,20 @@ function Search() {
     )
 }
 export default Search
+
+
+{/* <LoadScript googleMapsApiKey={googleMapsApiKey}>
+<GoogleMap
+    mapContainerStyle={containerStyle}
+    center={center}
+    zoom={5}
+>
+    {location?.map((location) => (
+        <Marker
+            key={location.city}
+            position={{ lat: location.latitude, lng: location.longitude }}
+            label={location.city.charAt(0).toUpperCase() + location.city.slice(1)}  // Capitalize the first letter of the label
+        />
+    ))}
+</GoogleMap>
+</LoadScript> */}
